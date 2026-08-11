@@ -1,0 +1,120 @@
+---
+import { Picture } from "astro:assets";
+import { Anchor, ArrowRight, ShieldCheck, WavesLadder } from "@lucide/astro";
+import batismoEmbarcacao from "../assets/acervo/batismo-embarcacao.jpg";
+import type { Locale } from "../lib/i18n";
+import { translate } from "../lib/i18n";
+import { whatsappUrl } from "../lib/contact";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = (pt: string, en: string) => translate(lang, pt, en);
+---
+
+<section class="section recreational" id="mergulho-recreativo">
+  <div class="shell split-layout">
+    <div class="section-heading">
+      <p class="eyebrow">{t("Batismo de mergulho", "Discover scuba diving")}</p>
+      <h2>{t("Sua primeira experiência começa em Salvador.", "Your first diving experience starts in Salvador.")}</h2>
+    </div>
+    <div class="section-copy">
+      <p class="lead-copy">
+        {t(
+          "O batismo é a porta de entrada para conhecer o mergulho com acompanhamento profissional nos cenários da Baía de Todos-os-Santos.",
+          "Discover scuba diving is your introduction to the underwater world, guided by professionals in the waters of All Saints Bay.",
+        )}
+      </p>
+      <div class="feature-list">
+        <article>
+          <Anchor size={24} />
+          <div>
+            <h3>{t("Feito para iniciantes", "Designed for beginners")}</h3>
+            <p>{t(
+              "Não é necessário ter certificação ou experiência anterior para participar.",
+              "No certification or previous diving experience is required.",
+            )}</p>
+          </div>
+        </article>
+        <article>
+          <WavesLadder size={24} />
+          <div>
+            <h3>{t("Orientação antes do mergulho", "Pre-dive guidance")}</h3>
+            <p>{t(
+              "A equipe apresenta os equipamentos, os procedimentos e as informações da atividade.",
+              "Our team introduces the equipment, procedures and essential information before the activity.",
+            )}</p>
+          </div>
+        </article>
+        <article>
+          <ShieldCheck size={24} />
+          <div>
+            <h3>{t("Acompanhamento profissional", "Professional supervision")}</h3>
+            <p>{t(
+              "O mergulho é conduzido com acompanhamento próximo durante toda a experiência.",
+              "The dive is conducted with close professional supervision throughout the experience.",
+            )}</p>
+          </div>
+        </article>
+      </div>
+      <a
+        class="text-link"
+        href={whatsappUrl(t(
+          "Olá! Gostaria de saber mais sobre o batismo de mergulho.",
+          "Hello! I would like to learn more about the discover scuba diving experience.",
+        ))}
+        target="_blank"
+        rel="noreferrer"
+      >{t("Consultar batismo", "Ask about your first dive")} <ArrowRight size={17} /></a>
+    </div>
+  </div>
+  <figure class="shell section-media recreational-media">
+    <div class="media-crop media-crop-detail">
+      <Picture
+        src={batismoEmbarcacao}
+        formats={["avif", "webp"]}
+        fallbackFormat="jpeg"
+        widths={[640, 1024, 1440]}
+        sizes="(max-width: 940px) 100vw, 60vw"
+        alt={t(
+          "Mergulhador entrando no mar a partir da embarcação da Shark Dive",
+          "Scuba diver entering the sea from the Shark Dive boat",
+        )}
+        loading="lazy"
+      />
+    </div>
+    <figcaption>{t("Operação de mergulho em Salvador", "Dive operation in Salvador")}</figcaption>
+  </figure>
+</section>
+
+<style>
+  .feature-list {
+    border-top: 1px solid var(--line);
+  }
+
+  .feature-list article {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 16px;
+    padding-block: 24px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .feature-list svg {
+    margin-top: 3px;
+    color: var(--teal);
+  }
+
+  .feature-list h3 {
+    margin-bottom: 8px;
+    font-size: 1.4rem;
+  }
+
+  .feature-list p {
+    margin-bottom: 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+</style>

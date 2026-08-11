@@ -1,0 +1,335 @@
+---
+import { Languages, Menu, Moon, Sun, X } from "@lucide/astro";
+import { siWhatsapp } from "simple-icons";
+import type { Locale } from "../lib/i18n";
+import { translate } from "../lib/i18n";
+import { whatsappUrl } from "../lib/contact";
+import { withBase } from "../lib/path";
+import BrandIcon from "./BrandIcon.astro";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = (pt: string, en: string) => translate(lang, pt, en);
+const isEnglish = lang === "en";
+---
+
+<header class="site-header" data-header>
+  <div class="shell header-inner">
+    <a class="brand" href="#inicio" aria-label={t("Shark Dive - início", "Shark Dive - home")}>
+      <img
+        src={withBase("/images/brand/sharkdive-logo-white.png")}
+        width="1999"
+        height="787"
+        alt={t("Shark Dive Centro de Mergulho", "Shark Dive Center")}
+      />
+    </a>
+
+    <nav class="desktop-nav" aria-label={t("Navegação principal", "Main navigation")}>
+      <a href="#mergulho-recreativo">{t("Mergulho", "Diving")}</a>
+      <a href="#cursos">{t("Cursos", "Courses")}</a>
+      <a href="#safari-baleias">{t("Baleias", "Whales")}</a>
+      <a href="#sobre">{t("Sobre", "About")}</a>
+    </nav>
+
+    <div class="header-actions">
+      <a
+        class="utility-button language-switch"
+        href={withBase(isEnglish ? "/" : "/en/")}
+        lang={isEnglish ? "pt-BR" : "en"}
+        aria-label={t("Ver site em inglês", "View site in Portuguese")}
+        title={t("English", "Português")}
+      >
+        <Languages size={18} />
+        <span>{isEnglish ? "PT" : "EN"}</span>
+      </a>
+
+      <button
+        class="utility-button theme-toggle"
+        type="button"
+        aria-label={t("Ativar modo escuro", "Enable dark mode")}
+        title={t("Alternar tema", "Switch theme")}
+        data-theme-toggle
+        data-dark-label={t("Ativar modo escuro", "Enable dark mode")}
+        data-light-label={t("Ativar modo claro", "Enable light mode")}
+      >
+        <Moon class="theme-moon" size={19} />
+        <Sun class="theme-sun" size={19} />
+      </button>
+
+      <a
+        class="button button-primary header-cta"
+        href={whatsappUrl(t(
+          "Olá! Gostaria de saber mais sobre os batismos, cursos ou safari de baleias.",
+          "Hello! I would like to learn more about first dives, courses or the whale-watching safari.",
+        ))}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <BrandIcon path={siWhatsapp.path} size={18} />
+        {t("Fale conosco", "Contact us")}
+      </a>
+
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-label={t("Abrir menu", "Open menu")}
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-menu-toggle
+        data-open-label={t("Abrir menu", "Open menu")}
+        data-close-label={t("Fechar menu", "Close menu")}
+      >
+        <Menu class="menu-open-icon" size={24} />
+        <X class="menu-close-icon" size={24} />
+      </button>
+    </div>
+  </div>
+
+  <nav class="mobile-nav" id="mobile-menu" aria-label={t("Navegação mobile", "Mobile navigation")} data-mobile-menu>
+    <a href="#mergulho-recreativo">{t("Mergulho recreativo", "Recreational diving")}</a>
+    <a href="#cursos">{t("Cursos", "Courses")}</a>
+    <a href="#safari-baleias">{t("Safari de baleias", "Whale-watching safari")}</a>
+    <a href="#sobre">{t("Sobre", "About")}</a>
+    <a href="#contato">{t("Contato", "Contact")}</a>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+  const menu = document.querySelector("[data-mobile-menu]");
+  const themeToggle = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
+
+  const updateMenuLabel = () => {
+    if (!toggle) return;
+    const isOpen = toggle.getAttribute("aria-expanded") === "true";
+    const label = isOpen ? toggle.getAttribute("data-close-label") : toggle.getAttribute("data-open-label");
+    if (label) toggle.setAttribute("aria-label", label);
+  };
+
+  const closeMenu = () => {
+    toggle?.setAttribute("aria-expanded", "false");
+    menu?.classList.remove("is-open");
+    updateMenuLabel();
+  };
+
+  const updateThemeLabel = () => {
+    if (!themeToggle) return;
+    const isDark = document.documentElement.dataset.theme === "dark";
+    const label = isDark ? themeToggle.dataset.lightLabel : themeToggle.dataset.darkLabel;
+    if (label) themeToggle.setAttribute("aria-label", label);
+  };
+
+  toggle?.addEventListener("click", () => {
+    const isOpen = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!isOpen));
+    menu?.classList.toggle("is-open", !isOpen);
+    updateMenuLabel();
+  });
+
+  menu?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape" || toggle?.getAttribute("aria-expanded") !== "true") return;
+    closeMenu();
+    toggle.focus();
+  });
+
+  themeToggle?.addEventListener("click", () => {
+    const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = nextTheme;
+    localStorage.setItem("sharkdive-theme", nextTheme);
+    updateThemeLabel();
+  });
+
+  updateThemeLabel();
+</script>
+
+<style>
+  .site-header {
+    position: fixed;
+    z-index: 50;
+    inset: 0 0 auto;
+    border-bottom: 1px solid rgb(255 255 255 / 16%);
+    background: rgb(6 46 59 / 96%);
+    color: white;
+    --focus: var(--focus-on-dark);
+  }
+
+  .header-inner {
+    display: grid;
+    grid-template-columns: 220px 1fr auto;
+    align-items: center;
+    min-height: 78px;
+    gap: 28px;
+  }
+
+  .brand {
+    display: block;
+    width: 170px;
+    height: 52px;
+    overflow: hidden;
+  }
+
+  .brand img {
+    width: 170px;
+    height: auto;
+  }
+
+  .desktop-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .desktop-nav a {
+    color: var(--text-on-dark);
+  }
+
+  .desktop-nav a:hover {
+    color: white;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .utility-button {
+    display: inline-flex;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid rgb(255 255 255 / 28%);
+    border-radius: 4px;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+  }
+
+  .utility-button:hover {
+    border-color: rgb(255 255 255 / 70%);
+    background: rgb(255 255 255 / 9%);
+  }
+
+  .language-switch {
+    width: 58px;
+    font-size: 0.75rem;
+    font-weight: 800;
+  }
+
+  .menu-toggle,
+  .mobile-nav {
+    display: none;
+  }
+
+  /* Troca de ícone do tema: override de seletor é obrigatório aqui, é
+     display, não cor — token não resolve. */
+  .theme-sun {
+    display: none;
+  }
+
+  html[data-theme="dark"] .theme-moon {
+    display: none;
+  }
+
+  html[data-theme="dark"] .theme-sun {
+    display: block;
+  }
+
+  @media (max-width: 940px) {
+    .header-inner {
+      grid-template-columns: 190px 1fr auto;
+    }
+
+    .desktop-nav,
+    .header-cta {
+      display: none;
+    }
+
+    .menu-toggle {
+      display: grid;
+      width: 44px;
+      height: 44px;
+      place-items: center;
+      border: 1px solid rgb(255 255 255 / 28%);
+      border-radius: 4px;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .menu-toggle .menu-close-icon {
+      display: none;
+    }
+
+    .menu-toggle[aria-expanded="true"] .menu-open-icon {
+      display: none;
+    }
+
+    .menu-toggle[aria-expanded="true"] .menu-close-icon {
+      display: block;
+    }
+
+    .mobile-nav {
+      position: absolute;
+      inset: 78px 0 auto;
+      display: none;
+      border-top: 1px solid var(--border-on-ink);
+      background: var(--ink);
+      padding: 18px 24px 28px;
+    }
+
+    .mobile-nav.is-open {
+      display: grid;
+    }
+
+    .mobile-nav a {
+      border-bottom: 1px solid var(--border-on-ink);
+      padding: 14px 0;
+      font-weight: 600;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .header-inner {
+      grid-template-columns: 1fr auto;
+      min-height: 70px;
+    }
+
+    .brand {
+      width: 150px;
+      height: 46px;
+    }
+
+    .brand img {
+      width: 150px;
+    }
+
+    .header-actions {
+      gap: 5px;
+    }
+
+    .utility-button {
+      width: 40px;
+      height: 40px;
+    }
+
+    .language-switch {
+      width: 48px;
+    }
+
+    .mobile-nav {
+      inset-block-start: 70px;
+    }
+  }
+</style>

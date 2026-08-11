@@ -1,0 +1,32 @@
+---
+import AboutSection from "../components/AboutSection.astro";
+import ContactSection from "../components/ContactSection.astro";
+import CoursesSection from "../components/CoursesSection.astro";
+import GallerySection from "../components/GallerySection.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import QuickLinks from "../components/QuickLinks.astro";
+import RecreationalSection from "../components/RecreationalSection.astro";
+import SafariSection from "../components/SafariSection.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Shark Dive | Mergulhos, cursos e baleias em Salvador"
+  description="Batismo de mergulho, cursos SDI e safari para observação de baleias em Salvador, Bahia."
+  lang="pt-BR"
+>
+  <Header lang="pt" />
+  <main id="conteudo">
+    <Hero lang="pt" />
+    <QuickLinks lang="pt" />
+    <RecreationalSection lang="pt" />
+    <CoursesSection lang="pt" />
+    <SafariSection lang="pt" />
+    <GallerySection lang="pt" />
+    <AboutSection lang="pt" />
+    <ContactSection lang="pt" />
+  </main>
+  <SiteFooter lang="pt" />
+</BaseLayout>

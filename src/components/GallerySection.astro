@@ -1,0 +1,176 @@
+---
+import { Picture } from "astro:assets";
+import baleiasSalvador from "../assets/acervo/baleias-salvador.jpg";
+import cardume from "../assets/acervo/cardume.jpg";
+import mergulhadorCardume from "../assets/acervo/mergulhador-cardume.jpg";
+import mergulhadorRecife from "../assets/acervo/mergulhador-recife.jpg";
+import type { Locale } from "../lib/i18n";
+import { translate } from "../lib/i18n";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = (pt: string, en: string) => translate(lang, pt, en);
+
+const photos = [
+  {
+    src: cardume,
+    alt: t("Cardume de peixes amarelos em recife de Salvador", "School of yellow fish on a reef in Salvador"),
+    className: "gallery-item gallery-featured",
+  },
+  {
+    src: mergulhadorRecife,
+    alt: t("Mergulhador diante de um recife com muitos peixes", "Scuba diver in front of a reef filled with fish"),
+    className: "gallery-item",
+  },
+  {
+    src: mergulhadorCardume,
+    alt: t("Mergulhador nadando junto a um grande cardume", "Scuba diver swimming alongside a large school of fish"),
+    className: "gallery-item",
+  },
+  {
+    src: baleiasSalvador,
+    alt: t("Duas baleias-jubarte com Salvador ao fundo", "Two humpback whales with Salvador in the background"),
+    className: "gallery-item gallery-wide",
+  },
+];
+---
+
+<section class="section gallery" aria-labelledby="gallery-title">
+  <div class="shell gallery-heading">
+    <div>
+      <p class="eyebrow">{t("Shark Dive em ação", "Shark Dive in action")}</p>
+      <h2 id="gallery-title">{t("Salvador vista do mar e por baixo dele.", "Salvador from the sea and beneath it.")}</h2>
+    </div>
+    <p>{t(
+      "Registros de mergulhos e encontros no litoral baiano publicados pela equipe Shark Dive.",
+      "Scenes from dives and marine encounters off the coast of Bahia, published by the Shark Dive team.",
+    )}</p>
+  </div>
+
+  <div class="shell gallery-grid">
+    {photos.map((photo) => (
+      <figure class={photo.className}>
+        <Picture
+          src={photo.src}
+          formats={["avif", "webp"]}
+          fallbackFormat="jpeg"
+          widths={[480, 800, 1200]}
+          sizes="(max-width: 640px) 100vw, 50vw"
+          alt={photo.alt}
+          loading="lazy"
+        />
+      </figure>
+    ))}
+  </div>
+  <p class="shell photo-credit">{t(
+    "Acervo Shark Dive. Créditos autorais preservados nas imagens.",
+    "Shark Dive archive. Original photo credits are preserved in the images.",
+  )}</p>
+</section>
+
+<style>
+  .gallery {
+    background: var(--paper);
+  }
+
+  .gallery-heading {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    align-items: end;
+    gap: 90px;
+    margin-bottom: 48px;
+  }
+
+  .gallery-heading h2 {
+    margin-bottom: 0;
+  }
+
+  .gallery-heading > p {
+    margin-bottom: 8px;
+    color: var(--muted);
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(3, clamp(260px, 28vw, 360px));
+    gap: 12px;
+  }
+
+  .gallery-item {
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+    margin: 0;
+    background: var(--abyss);
+  }
+
+  .gallery-item img {
+    width: 110%;
+    max-width: none;
+    height: 100%;
+    margin-left: -5%;
+    object-fit: cover;
+    transition: transform 400ms ease;
+  }
+
+  .gallery-item:hover img {
+    transform: scale(1.025);
+  }
+
+  .gallery-featured {
+    grid-row: span 2;
+  }
+
+  .gallery-featured img {
+    object-position: 50% center;
+  }
+
+  .gallery-wide {
+    grid-column: 1 / -1;
+  }
+
+  .gallery-wide img {
+    object-position: center 48%;
+  }
+
+  .photo-credit {
+    margin-top: 14px;
+    margin-bottom: 0;
+    color: var(--muted);
+    font-size: 0.7rem;
+  }
+
+  @media (max-width: 940px) {
+    .gallery-heading {
+      grid-template-columns: 1fr;
+      gap: 42px;
+    }
+
+    .gallery-grid {
+      grid-template-rows: repeat(3, clamp(240px, 42vw, 340px));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .gallery-heading {
+      margin-bottom: 32px;
+    }
+
+    .gallery-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: none;
+      max-height: none;
+    }
+
+    .gallery-item,
+    .gallery-featured {
+      min-height: 0;
+      aspect-ratio: 4 / 3;
+      grid-row: auto;
+    }
+  }
+</style>

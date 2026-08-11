@@ -1,0 +1,91 @@
+---
+import { getImage } from "astro:assets";
+import socialSource from "../assets/acervo/embarcacao-farol.jpg";
+import { withBase } from "../lib/path";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  lang?: "pt-BR" | "en";
+  image?: string;
+}
+
+const { title, description, lang = "pt-BR", image } = Astro.props;
+const canonicalPath = lang === "en" ? "/en/" : "/";
+const canonicalUrl = new URL(canonicalPath, Astro.site);
+
+// Crawlers sociais exigem URL absoluta e não leem srcset — imagem única em 1.91:1.
+const socialImage = await getImage({
+  src: socialSource,
+  width: 1200,
+  height: 630,
+  format: "jpeg",
+});
+const socialImageUrl = new URL(image ?? socialImage.src, Astro.site);
+const socialImageAlt = lang === "en"
+  ? "Shark Dive boat and scuba divers near Barra Lighthouse in Salvador"
+  : "Embarcação da Shark Dive e mergulhadores próximos ao Farol da Barra em Salvador";
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#101416" />
+    <link
+      rel="preload"
+      href={withBase("/fonts/inter-var-latin.woff2")}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={withBase("/fonts/barlow-condensed-700-latin.woff2")}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href={withBase("/sharkdive-mark-transparent-32.png")} />
+    <link rel="icon" type="image/png" sizes="512x512" href={withBase("/sharkdive-mark-transparent-512.png")} />
+    <link rel="apple-touch-icon" sizes="180x180" href={withBase("/sharkdive-mark-transparent-180.png")} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="pt-BR" href={new URL("/", Astro.site)} />
+    <link rel="alternate" hreflang="en" href={new URL("/en/", Astro.site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL("/", Astro.site)} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Shark Dive" />
+    <meta property="og:locale" content={lang === "en" ? "en_US" : "pt_BR"} />
+    <meta property="og:locale:alternate" content={lang === "en" ? "pt_BR" : "en_US"} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={socialImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+    <meta name="twitter:image:alt" content={socialImageAlt} />
+    <script is:inline>
+      (() => {
+        const savedTheme = localStorage.getItem("sharkdive-theme");
+        const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+        document.documentElement.dataset.theme = savedTheme || preferredTheme;
+      })();
+    </script>
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">{lang === "en" ? "Skip to content" : "Pular para o conteúdo"}</a>
+    <slot />
+  </body>
+</html>

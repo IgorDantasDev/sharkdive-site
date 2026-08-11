@@ -1,0 +1,172 @@
+---
+import { Picture } from "astro:assets";
+import { ArrowRight, Binoculars, CalendarDays, MapPin, Users } from "@lucide/astro";
+import baleiaSalto from "../assets/acervo/baleia-salto.jpg";
+import type { Locale } from "../lib/i18n";
+import { translate } from "../lib/i18n";
+import { whatsappUrl } from "../lib/contact";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = (pt: string, en: string) => translate(lang, pt, en);
+---
+
+<section class="section secondary safari" id="safari-baleias">
+  <div class="shell">
+    <figure class="safari-media">
+      <div class="media-crop media-crop-whale">
+        <Picture
+          src={baleiaSalto}
+          formats={["avif", "webp"]}
+          fallbackFormat="jpeg"
+          widths={[640, 1024, 1440, 1800]}
+          sizes="(max-width: 1180px) 100vw, 1180px"
+          alt={t(
+            "Baleia-jubarte saltando no litoral da Bahia",
+            "Humpback whale breaching off the coast of Bahia",
+          )}
+          loading="lazy"
+        />
+      </div>
+      <figcaption>{t("Baleia-jubarte no litoral baiano", "Humpback whale off the coast of Bahia")}</figcaption>
+    </figure>
+
+    <div class="safari-layout">
+    <div class="section-heading">
+      <p class="eyebrow">{t("Experiência sazonal", "Seasonal experience")}</p>
+      <h2>{t("Safari para observação de baleias.", "Whale-watching safari.")}</h2>
+    </div>
+
+    <div class="safari-content">
+      <Binoculars class="safari-icon" size={36} />
+      <p class="safari-lead">{t(
+        "Observe baleias-jubarte no litoral baiano em uma experiência planejada pela equipe da Shark Dive.",
+        "Watch humpback whales off the coast of Bahia on an experience planned by the Shark Dive team.",
+      )}</p>
+
+      <div class="safari-details">
+        <span><CalendarDays size={19} /> {t("Temporada e datas sob consulta", "Season and dates available on request")}</span>
+        <span><MapPin size={19} /> {t("Saída em Salvador", "Departure from Salvador")}</span>
+        <span><Users size={19} /> {t("Reserva antecipada", "Advance booking")}</span>
+      </div>
+
+      <a
+        class="button button-primary"
+        href={whatsappUrl(t(
+          "Olá! Gostaria de saber mais sobre o safari de observação de baleias.",
+          "Hello! I would like to learn more about the whale-watching safari.",
+        ))}
+        target="_blank"
+        rel="noreferrer"
+      >
+        {t("Consultar safari", "Ask about the safari")}
+        <ArrowRight size={18} />
+      </a>
+    </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .secondary {
+    background: var(--secondary-bg);
+    color: white;
+    --focus: var(--focus-on-dark);
+  }
+
+  .secondary .eyebrow {
+    color: var(--accent-on-dark);
+  }
+
+  .safari-layout {
+    display: grid;
+    grid-template-columns: 1fr minmax(380px, 0.8fr);
+    gap: 100px;
+    margin-top: 72px;
+  }
+
+  .safari-media {
+    margin: 0;
+  }
+
+  .media-crop-whale {
+    aspect-ratio: 16 / 7;
+  }
+
+  .media-crop-whale img {
+    object-position: center 50%;
+  }
+
+  /* .section-media figcaption (global) não alcança .safari-media — regra completa aqui. */
+  .safari-media figcaption {
+    margin-top: 10px;
+    color: var(--text-on-dark-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+
+  .safari .section-heading h2 {
+    margin-bottom: 0;
+  }
+
+  .safari-content {
+    display: grid;
+    align-content: start;
+    border-top: 1px solid rgb(255 255 255 / 28%);
+    padding-top: 30px;
+  }
+
+  .safari-icon {
+    margin-bottom: 30px;
+    color: var(--accent-on-dark);
+  }
+
+  .safari-lead {
+    margin-bottom: 30px;
+    color: var(--text-on-dark);
+    font-size: 1.12rem;
+    line-height: 1.7;
+  }
+
+  .safari-details {
+    display: grid;
+    border-bottom: 1px solid rgb(255 255 255 / 28%);
+  }
+
+  .safari-details span {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    align-items: center;
+    gap: 12px;
+    border-top: 1px solid rgb(255 255 255 / 18%);
+    padding-block: 14px;
+    color: var(--text-on-dark);
+    font-size: 0.84rem;
+    font-weight: 700;
+  }
+
+  .safari .button {
+    justify-self: start;
+    margin-top: 30px;
+  }
+
+  @media (max-width: 940px) {
+    .safari-layout {
+      grid-template-columns: 1fr;
+      gap: 42px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .media-crop-whale {
+      aspect-ratio: 4 / 3;
+    }
+
+    .safari-layout {
+      margin-top: 48px;
+    }
+  }
+</style>

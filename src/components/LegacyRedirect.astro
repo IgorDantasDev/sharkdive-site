@@ -1,0 +1,35 @@
+---
+/* Rota antiga da Wix. O GitHub Pages não faz redirect server-side nem detecta
+   idioma, então uma única URL atende os dois públicos: o texto de fallback sai
+   nos dois idiomas, cada um com seu próprio lang para leitores de tela. */
+import { withBase } from "../lib/path";
+
+interface Props {
+  target: string;
+  labelPt: string;
+  labelEn: string;
+}
+
+const { target, labelPt, labelEn } = Astro.props;
+const canonicalUrl = new URL(target, Astro.site);
+canonicalUrl.hash = "";
+const redirectTarget = withBase(target);
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex,follow" />
+    <meta http-equiv="refresh" content={`0;url=${redirectTarget}`} />
+    <link rel="canonical" href={canonicalUrl} />
+    <title>{labelPt} | Shark Dive</title>
+  </head>
+  <body>
+    <main>
+      <p lang="pt-BR">Redirecionando para <a href={redirectTarget}>{labelPt}</a>.</p>
+      <p lang="en">Redirecting to <a href={redirectTarget}>{labelEn}</a>.</p>
+    </main>
+  </body>
+</html>

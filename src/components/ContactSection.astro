@@ -1,0 +1,156 @@
+---
+import { ArrowRight, Mail, MapPin } from "@lucide/astro";
+import { siInstagram, siWhatsapp } from "simple-icons";
+import type { Locale } from "../lib/i18n";
+import { translate } from "../lib/i18n";
+import { whatsappUrl } from "../lib/contact";
+import BrandIcon from "./BrandIcon.astro";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = (pt: string, en: string) => translate(lang, pt, en);
+---
+
+<section class="contact" id="contato">
+  <div class="shell contact-grid">
+    <div>
+      <p class="eyebrow">{t("Contato", "Contact")}</p>
+      <h2>{t("Vamos planejar seu próximo mergulho?", "Ready to plan your next dive?")}</h2>
+      <p>{t(
+        "Fale com a equipe sobre batismos, cursos e disponibilidade para o safari de baleias.",
+        "Contact our team about first-time dives, courses and whale-watching safari availability.",
+      )}</p>
+    </div>
+    <div class="contact-actions">
+      <a
+        class="contact-link contact-address"
+        href="https://www.google.com/maps/search/?api=1&query=Terminal+Turistico+Nautico+da+Bahia+Salvador"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <MapPin size={22} />
+        <span>
+          <small>{t("Base em Salvador", "Salvador base")}</small>
+          {t("Av. da França, s/n — Terminal Turístico Náutico da Bahia, Comércio", "Av. da França, no number — Bahia Nautical Tourist Terminal, Comércio")}<br />
+          Salvador — Bahia, 40010-000, {t("Brasil", "Brazil")}
+        </span>
+        <ArrowRight size={20} />
+      </a>
+      <a class="contact-link" href="mailto:atendimento@sharkdive.com.br">
+        <Mail size={22} />
+        <span><small>E-mail</small>atendimento@sharkdive.com.br</span>
+        <ArrowRight size={20} />
+      </a>
+      <a
+        class="contact-link"
+        href={whatsappUrl(t(
+          "Olá! Gostaria de saber mais sobre os batismos, cursos ou safari de baleias.",
+          "Hello! I would like to learn more about first dives, courses or the whale-watching safari.",
+        ))}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <BrandIcon path={siWhatsapp.path} />
+        <span><small>WhatsApp</small>+55 (71) 99274-7781</span>
+        <ArrowRight size={20} />
+      </a>
+      <a
+        class="contact-link"
+        href="https://www.instagram.com/sharkdiveoperadora"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <BrandIcon path={siInstagram.path} />
+        <span><small>Instagram</small>@sharkdiveoperadora</span>
+        <ArrowRight size={20} />
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    padding-block: 100px;
+    background: var(--contact-bg);
+    color: white;
+    --focus: var(--focus-on-dark);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 110px;
+  }
+
+  .contact .eyebrow {
+    color: var(--red-on-dark);
+  }
+
+  .contact h2 {
+    margin-bottom: 22px;
+    font-size: clamp(2.7rem, 5vw, 4.8rem);
+  }
+
+  .contact-grid > div:first-child > p:last-child {
+    color: var(--text-on-dark);
+  }
+
+  .contact-actions {
+    border-top: 1px solid rgb(255 255 255 / 28%);
+  }
+
+  .contact-link {
+    display: grid;
+    grid-template-columns: 28px 1fr 24px;
+    align-items: center;
+    gap: 14px;
+    min-height: 86px;
+    border-bottom: 1px solid rgb(255 255 255 / 28%);
+  }
+
+  .contact-link span {
+    display: grid;
+    overflow-wrap: anywhere;
+  }
+
+  .contact-link small {
+    color: var(--text-on-dark-muted);
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .contact-address {
+    min-height: 112px;
+  }
+
+  .contact-address span {
+    font-size: 0.86rem;
+    line-height: 1.55;
+  }
+
+  .contact-link:hover {
+    color: var(--red-on-dark-hover);
+  }
+
+  @media (max-width: 940px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 56px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .contact {
+      padding-block: 78px;
+    }
+
+    .contact-link {
+      grid-template-columns: 24px 1fr 20px;
+      min-height: 82px;
+    }
+  }
+</style>

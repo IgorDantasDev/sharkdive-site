@@ -1,0 +1,32 @@
+---
+import AboutSection from "../../components/AboutSection.astro";
+import ContactSection from "../../components/ContactSection.astro";
+import CoursesSection from "../../components/CoursesSection.astro";
+import GallerySection from "../../components/GallerySection.astro";
+import Header from "../../components/Header.astro";
+import Hero from "../../components/Hero.astro";
+import QuickLinks from "../../components/QuickLinks.astro";
+import RecreationalSection from "../../components/RecreationalSection.astro";
+import SafariSection from "../../components/SafariSection.astro";
+import SiteFooter from "../../components/SiteFooter.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Shark Dive | Dives, courses and whales in Salvador"
+  description="Discover scuba diving, SDI courses and whale-watching safaris in Salvador, Bahia, Brazil."
+  lang="en"
+>
+  <Header lang="en" />
+  <main id="conteudo">
+    <Hero lang="en" />
+    <QuickLinks lang="en" />
+    <RecreationalSection lang="en" />
+    <CoursesSection lang="en" />
+    <SafariSection lang="en" />
+    <GallerySection lang="en" />
+    <AboutSection lang="en" />
+    <ContactSection lang="en" />
+  </main>
+  <SiteFooter lang="en" />
+</BaseLayout>

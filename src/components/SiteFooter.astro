@@ -1,0 +1,70 @@
+---
+import type { Locale } from "../lib/i18n";
+import { translate } from "../lib/i18n";
+import { withBase } from "../lib/path";
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = (pt: string, en: string) => translate(lang, pt, en);
+---
+
+<footer class="site-footer">
+  <div class="shell footer-inner">
+    <div class="footer-brand">
+      <img
+        src={withBase("/images/brand/sharkdive-logo-white.png")}
+        width="1999"
+        height="787"
+        alt="Shark Dive"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+    <p>{t("Centro de mergulho em Salvador, Bahia.", "Dive center in Salvador, Bahia, Brazil.")}</p>
+    <p>© {new Date().getFullYear()} Shark Dive</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border-on-dark);
+    background: var(--surface-deep);
+    color: var(--text-on-dark-muted);
+    --focus: var(--focus-on-dark);
+  }
+
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 180px 1fr auto;
+    align-items: center;
+    gap: 32px;
+    min-height: 118px;
+  }
+
+  .footer-brand {
+    width: 170px;
+    height: 52px;
+    overflow: hidden;
+  }
+
+  .footer-brand img {
+    width: 170px;
+    height: auto;
+  }
+
+  .footer-inner p {
+    margin-bottom: 0;
+    font-size: 0.76rem;
+  }
+
+  @media (max-width: 640px) {
+    .footer-inner {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding-block: 34px;
+    }
+  }
+</style>
