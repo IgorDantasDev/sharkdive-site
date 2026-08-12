@@ -9,7 +9,7 @@ Site estático de um centro de mergulho em Salvador, Bahia. O MVP apresenta:
 - batismo de mergulho;
 - cursos SDI e TDI;
 - safari para observação de baleias;
-- equipe e canais de contato.
+- apresentação institucional da equipe e canais de contato.
 
 Toda conversão acontece por WhatsApp, Instagram ou e-mail. Não há backend, CMS,
 formulário ou pagamento.
@@ -27,7 +27,9 @@ principalmente em `PLANO-SITE.md`.
 3. Preservar a componentização e os padrões existentes.
 4. Evitar dependências e JavaScript sem necessidade.
 5. Priorizar acessibilidade, desempenho e manutenção simples.
-6. Não publicar o MVP sem validação do cliente.
+6. O preview pode permanecer público no endereço provisório, mas não deve ser
+   divulgado como versão final nem receber o domínio oficial sem validação do
+   cliente.
 7. Não alterar DNS de e-mail durante a migração do site.
 
 ## Stack
@@ -70,6 +72,7 @@ src/
   lib/
     contact.ts
     i18n.ts
+    path.ts                      aplica o `base` às URLs internas
   pages/
     index.astro                /
     en/index.astro             /en/
@@ -158,7 +161,7 @@ Dados recebidos e usados no MVP, ainda sujeitos à aprovação final do cliente:
 - Instagram: `https://www.instagram.com/sharkdiveoperadora`;
 - e-mail: `atendimento@sharkdive.com.br`;
 - endereço: Terminal Turístico Náutico da Bahia, Salvador;
-- lista de instrutores;
+- texto institucional sobre a equipe, sem nomes individuais;
 - inventário de cursos SDI e TDI.
 
 Regras:
@@ -171,6 +174,7 @@ Regras:
    serviço técnico subaquático.
 5. Texto recebido pode ser adaptado para não comunicar serviços fora do escopo,
    mas precisa de aprovação final antes da publicação.
+6. Não reintroduzir nomes de instrutores sem uma nova solicitação do cliente.
 
 ## Imagens
 
@@ -277,6 +281,23 @@ JavaScript no cliente existe apenas para:
 Preferir HTML e CSS. Não adicionar carrossel automático, rastreamento, widget de
 terceiros ou dependência de runtime sem aprovação.
 
+## Métricas
+
+A ferramenta escolhida para métricas é o Umami. A integração deve ser ativada
+somente quando o domínio oficial estiver conectado e validado, evitando misturar
+acessos de desenvolvimento e do preview com os dados reais.
+
+Regras:
+
+- carregar o script somente em produção e somente quando houver um identificador
+  configurado por variável do repositório;
+- medir apenas visualizações e conversões essenciais, como cliques em WhatsApp,
+  Instagram e e-mail;
+- não enviar nome, telefone, e-mail, conteúdo de mensagem ou outro dado pessoal
+  em eventos;
+- documentar os nomes dos eventos antes de implementá-los;
+- validar no painel do Umami depois da publicação no domínio oficial.
+
 ## SEO
 
 `BaseLayout.astro` é responsável por:
@@ -316,6 +337,9 @@ O domínio é registrado no Registro.br, mas usa `ns1.wix.com` e `ns2.wix.com`.
 A zona DNS autoritativa é administrada pela Wix. O e-mail utiliza Google
 Workspace e sua assinatura pode ter sido adquirida por meio da Wix.
 
+O domínio canônico adotado pelo projeto é `https://www.sharkdive.com.br`. No
+lançamento, `https://sharkdive.com.br` deve encaminhar para a versão com `www`.
+
 Na migração:
 
 - alterar somente registros comprovadamente ligados ao site;
@@ -325,6 +349,7 @@ Na migração:
 - manter os nameservers da Wix na primeira tentativa de migração e alterar apenas
   os registros web, caso o painel permita apontamento externo;
 - testar envio e recebimento de e-mail após a troca;
+- validar domínio raiz, `www`, redirecionamento canônico e HTTPS;
 - não cancelar a Wix antes da estabilização do novo site.
 - não cancelar a assinatura separada de Business Email/Google Workspace.
 
@@ -334,8 +359,9 @@ plano de retorno.
 ## Publicação No GitHub Pages
 
 O workflow `.github/workflows/deploy.yml` publica o conteúdo de `dist/`.
-Enquanto o site usa o endereço provisório `usuario.github.io/repositorio/`, o
-`base` é inferido de `GITHUB_REPOSITORY`.
+O preview já está publicado em
+`https://igordantasdev.github.io/sharkdive-site/`. Enquanto ele usa o formato
+`usuario.github.io/repositorio/`, o `base` é inferido de `GITHUB_REPOSITORY`.
 
 Ao ativar o domínio próprio, criar nas variáveis do repositório:
 
@@ -346,6 +372,10 @@ SITE_BASE_PATH=/
 Essa variável é obrigatória no domínio próprio para que os assets deixem de usar
 o nome do repositório como prefixo. Canonical, sitemap e Open Graph continuam
 apontando para `https://www.sharkdive.com.br` em ambos os ambientes.
+
+Também é necessário cadastrar `www.sharkdive.com.br` como domínio personalizado
+no GitHub Pages, configurar os registros web na zona da Wix sem alterar os
+registros de e-mail e aguardar a emissão do certificado HTTPS.
 
 ## Verificação
 
