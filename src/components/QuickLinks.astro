@@ -13,9 +13,21 @@ const t = (pt: string, en: string) => translate(lang, pt, en);
 
 <section class="quick-links" id="acessos" aria-label={t("Acessos rápidos", "Quick links")}>
   <div class="shell quick-grid">
-    <a href="#mergulho-recreativo"><WavesLadder size={22} /> {t("Batismo de mergulho", "Discover scuba diving")}</a>
-    <a href="#cursos"><GraduationCap size={22} /> {t("Cursos", "Courses")}</a>
-    <a href="#safari-baleias"><Binoculars size={22} /> {t("Safari de baleias", "Whale-watching safari")}</a>
+    <a href="#mergulho-recreativo">
+      <WavesLadder size={22} />
+      <span class="quick-label-full">{t("Batismo de mergulho", "Discover scuba diving")}</span>
+      <span class="quick-label-mobile">{t("Batismo", "First dive")}</span>
+    </a>
+    <a href="#cursos">
+      <GraduationCap size={22} />
+      <span class="quick-label-full">{t("Cursos", "Courses")}</span>
+      <span class="quick-label-mobile">{t("Cursos", "Courses")}</span>
+    </a>
+    <a href="#safari-baleias">
+      <Binoculars size={22} />
+      <span class="quick-label-full">{t("Safari de baleias", "Whale-watching safari")}</span>
+      <span class="quick-label-mobile">{t("Baleias", "Whales")}</span>
+    </a>
   </div>
 </section>
 
@@ -56,6 +68,10 @@ const t = (pt: string, en: string) => translate(lang, pt, en);
     background: var(--ocean-hover);
   }
 
+  .quick-label-mobile {
+    display: none;
+  }
+
   @media (max-width: 940px) {
     .quick-grid {
       grid-template-columns: repeat(3, 1fr);
@@ -69,12 +85,20 @@ const t = (pt: string, en: string) => translate(lang, pt, en);
 
     .quick-grid a {
       min-width: 0;
-      min-height: 96px;
+      min-height: 78px;
       flex-direction: column;
       border-bottom: 1px solid rgb(255 255 255 / 18%);
       padding: 12px 8px;
-      font-size: 0.7rem;
+      font-size: 0.72rem;
       line-height: 1.35;
+    }
+
+    .quick-label-full {
+      display: none;
+    }
+
+    .quick-label-mobile {
+      display: inline;
     }
   }
 </style>
