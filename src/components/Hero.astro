@@ -141,7 +141,7 @@ const t = (pt: string, en: string) => translate(lang, pt, en);
 
   @media (max-width: 640px) {
     .hero {
-      min-height: 690px;
+      min-height: min(690px, 100svh);
       padding-top: 70px;
     }
 
@@ -155,7 +155,7 @@ const t = (pt: string, en: string) => translate(lang, pt, en);
 
     .hero-content {
       align-self: end;
-      padding-block: 110px 106px;
+      padding-block: 96px 82px;
     }
 
     .hero h1 {

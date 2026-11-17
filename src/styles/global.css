@@ -363,15 +363,19 @@ html[data-theme="dark"] .button-dark:hover {
   }
 
   h2 {
-    font-size: clamp(2.7rem, 15vw, 4.2rem);
+    font-size: clamp(2.35rem, 11vw, 3.35rem);
   }
 
   .section {
-    padding-block: 78px;
+    padding-block: 64px;
+  }
+
+  .split-layout {
+    gap: 32px;
   }
 
   .section-media {
-    margin-top: 48px;
+    margin-top: 40px;
   }
 }
 

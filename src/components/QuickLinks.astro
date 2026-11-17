@@ -64,20 +64,17 @@ const t = (pt: string, en: string) => translate(lang, pt, en);
 
   @media (max-width: 640px) {
     .quick-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .quick-grid a {
       min-width: 0;
-      min-height: 76px;
+      min-height: 96px;
       flex-direction: column;
       border-bottom: 1px solid rgb(255 255 255 / 18%);
-      padding: 12px;
-      font-size: 0.75rem;
-    }
-
-    .quick-grid a:nth-child(odd) {
-      border-left: 1px solid rgb(255 255 255 / 18%);
+      padding: 12px 8px;
+      font-size: 0.7rem;
+      line-height: 1.35;
     }
   }
 </style>
