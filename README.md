@@ -5,7 +5,7 @@ Bahia. Apresenta batismo de mergulho, cursos SDI e TDI e safari para observaçã
 de baleias, com atendimento por WhatsApp, Instagram e e-mail.
 
 Construído com Astro, TypeScript e CSS. Possui versões em português e inglês,
-modo noturno e publicação automática no GitHub Pages.
+modo noturno e publicação no GitHub Pages (`scripts/publish-pages.sh`).
 
 Preview: <https://igordantasdev.github.io/sharkdive-site/>
 

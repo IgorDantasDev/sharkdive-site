@@ -89,6 +89,8 @@ public/
   favicon*.png
   robots.txt
   sitemap.xml                  mantido à mão: página nova exige editar aqui
+scripts/
+  publish-pages.sh             publica dist/ no branch gh-pages
 astro.config.mjs
 ```
 
@@ -358,24 +360,34 @@ plano de retorno.
 
 ## Publicação No GitHub Pages
 
-O workflow `.github/workflows/deploy.yml` publica o conteúdo de `dist/`.
-O preview já está publicado em
-`https://igordantasdev.github.io/sharkdive-site/`. Enquanto ele usa o formato
-`usuario.github.io/repositorio/`, o `base` é inferido de `GITHUB_REPOSITORY`.
+O Pages publica o branch `gh-pages` (modo branch, não Actions). O GitHub
+Actions da conta está bloqueado por cobrança desde 2026-11-17, então o
+workflow `.github/workflows/deploy.yml` só roda manualmente e não é o caminho
+de publicação. Publicar com:
 
-Ao ativar o domínio próprio, criar nas variáveis do repositório:
-
-```text
-SITE_BASE_PATH=/
+```sh
+scripts/publish-pages.sh preview      # igordantasdev.github.io/sharkdive-site/
+scripts/publish-pages.sh production   # www.sharkdive.com.br, só no lançamento
+DRY_RUN=1 scripts/publish-pages.sh preview   # gera o commit, sem push
 ```
 
-Essa variável é obrigatória no domínio próprio para que os assets deixem de usar
-o nome do repositório como prefixo. Canonical, sitemap e Open Graph continuam
-apontando para `https://www.sharkdive.com.br` em ambos os ambientes.
+O script exige working tree limpa, roda `typecheck` e `build` com o
+`SITE_BASE_PATH` certo (`/sharkdive-site` no preview, `/` em produção), mantém
+`.nojekyll` e sincroniza `dist/` no `gh-pages`. Canonical, sitemap e Open Graph
+apontam para `https://www.sharkdive.com.br` nos dois modos.
 
-Também é necessário cadastrar `www.sharkdive.com.br` como domínio personalizado
-no GitHub Pages, configurar os registros web na zona da Wix sem alterar os
-registros de e-mail e aguardar a emissão do certificado HTTPS.
+Em `production` o script grava `dist/CNAME` com `www.sharkdive.com.br`. No modo
+branch é esse arquivo que cadastra o domínio no Pages: publicar sem ele remove o
+domínio. Não rodar `production` antes do lançamento — o preview `github.io`
+passa a redirecionar para o domínio, que ainda aponta para a Wix.
+
+Estado anterior da zona DNS e passo a passo do lançamento ficam em
+`../sharkdive-planejamento/DNS-WIX-SNAPSHOT.md` e `RUNBOOK-LANCAMENTO.md`.
+
+Se o Actions voltar: restaurar o gatilho `push` no workflow, trocar a origem do
+Pages para "GitHub Actions" e criar a variável de repositório
+`SITE_BASE_PATH=/` no lançamento (no workflow o `base` é inferido de
+`GITHUB_REPOSITORY`).
 
 ## Verificação
 

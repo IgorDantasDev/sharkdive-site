@@ -1,8 +1,9 @@
 name: Deploy to GitHub Pages
 
+# Desativado no push: o Actions da conta esta bloqueado por cobranca e o Pages
+# publica o branch gh-pages (scripts/publish-pages.sh). Para voltar a usar,
+# restaurar "push: branches: [main]" e trocar a origem do Pages para Actions.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
