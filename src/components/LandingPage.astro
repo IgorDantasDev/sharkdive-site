@@ -1,0 +1,65 @@
+---
+import type { Locale } from "../lib/i18n";
+import { sectionPath, sectionRoutes, type SectionRoute } from "../lib/routes";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AboutSection from "./AboutSection.astro";
+import ContactSection from "./ContactSection.astro";
+import CoursesSection from "./CoursesSection.astro";
+import GallerySection from "./GallerySection.astro";
+import Header from "./Header.astro";
+import Hero from "./Hero.astro";
+import QuickLinks from "./QuickLinks.astro";
+import RecreationalSection from "./RecreationalSection.astro";
+import SafariSection from "./SafariSection.astro";
+import SiteFooter from "./SiteFooter.astro";
+
+interface Props {
+  lang: Locale;
+  initialSection?: SectionRoute;
+}
+
+const { lang, initialSection } = Astro.props;
+const isEnglish = lang === "en";
+const defaultMeta = {
+  title: isEnglish
+    ? "Shark Dive | Dives, courses and whales in Salvador"
+    : "Shark Dive | Mergulhos, cursos e baleias em Salvador",
+  description: isEnglish
+    ? "Discover scuba diving, SDI courses and whale-watching safaris in Salvador, Bahia, Brazil."
+    : "Batismo de mergulho, cursos SDI e safari para observação de baleias em Salvador, Bahia.",
+};
+const route = initialSection ? sectionRoutes[initialSection] : undefined;
+const canonicalPath = initialSection ? sectionPath(lang, initialSection) : (isEnglish ? "/en/" : "/");
+const alternatePtPath = initialSection ? sectionPath("pt", initialSection) : "/";
+const alternateEnPath = initialSection ? sectionPath("en", initialSection) : "/en/";
+const initialSectionId = route?.id;
+---
+
+<BaseLayout
+  title={route?.title[lang] ?? defaultMeta.title}
+  description={route?.description[lang] ?? defaultMeta.description}
+  lang={isEnglish ? "en" : "pt-BR"}
+  canonicalPath={canonicalPath}
+  alternatePtPath={alternatePtPath}
+  alternateEnPath={alternateEnPath}
+>
+  <Header lang={lang} currentSection={initialSection} />
+  <main id="conteudo">
+    <Hero lang={lang} />
+    <QuickLinks lang={lang} />
+    <RecreationalSection lang={lang} />
+    <CoursesSection lang={lang} />
+    <SafariSection lang={lang} />
+    <GallerySection lang={lang} />
+    <AboutSection lang={lang} />
+    <ContactSection lang={lang} />
+  </main>
+  <SiteFooter lang={lang} />
+  {initialSectionId && (
+    <script is:inline define:vars={{ initialSectionId }}>
+      window.addEventListener("load", () => {
+        document.getElementById(initialSectionId)?.scrollIntoView({ block: "start" });
+      }, { once: true });
+    </script>
+  )}
+</BaseLayout>

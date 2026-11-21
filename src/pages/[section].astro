@@ -1,0 +1,20 @@
+---
+import LandingPage from "../components/LandingPage.astro";
+import { sectionPath, sectionRouteKeys, sectionFromSlug, type SectionRoute } from "../lib/routes";
+
+export function getStaticPaths() {
+  return sectionRouteKeys.map((section) => ({
+    params: { section: sectionPath("pt", section).split("/").filter(Boolean).at(-1) },
+    props: { section },
+  }));
+}
+
+interface Props {
+  section: SectionRoute;
+}
+
+const slug = Astro.params.section ?? "";
+const { section = sectionFromSlug("pt", slug) } = Astro.props as Props;
+---
+
+<LandingPage lang="pt" initialSection={section} />

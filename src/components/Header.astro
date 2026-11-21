@@ -5,20 +5,27 @@ import type { Locale } from "../lib/i18n";
 import { translate } from "../lib/i18n";
 import { whatsappUrl } from "../lib/contact";
 import { withBase } from "../lib/path";
+import { sectionPath, type SectionRoute } from "../lib/routes";
 import BrandIcon from "./BrandIcon.astro";
 
 interface Props {
   lang: Locale;
+  currentSection?: SectionRoute;
 }
 
-const { lang } = Astro.props;
+const { lang, currentSection } = Astro.props;
 const t = (pt: string, en: string) => translate(lang, pt, en);
 const isEnglish = lang === "en";
+const sectionHref = (section: SectionRoute) => withBase(sectionPath(lang, section));
+const otherLanguage = isEnglish ? "pt" : "en";
+const languageHref = currentSection
+  ? withBase(sectionPath(otherLanguage, currentSection))
+  : withBase(isEnglish ? "/" : "/en/");
 ---
 
 <header class="site-header" data-header>
   <div class="shell header-inner">
-    <a class="brand" href="#inicio" aria-label={t("Shark Dive - início", "Shark Dive - home")}>
+    <a class="brand" href={sectionHref("inicio")} aria-label={t("Shark Dive - início", "Shark Dive - home")}>
       <img
         src={withBase("/images/brand/sharkdive-logo-white.png")}
         width="1999"
@@ -28,16 +35,16 @@ const isEnglish = lang === "en";
     </a>
 
     <nav class="desktop-nav" aria-label={t("Navegação principal", "Main navigation")}>
-      <a href="#mergulho-recreativo">{t("Mergulho", "Diving")}</a>
-      <a href="#cursos">{t("Cursos", "Courses")}</a>
-      <a href="#safari-baleias">{t("Baleias", "Whales")}</a>
-      <a href="#sobre">{t("Sobre", "About")}</a>
+      <a href={sectionHref("batismo")} aria-current={currentSection === "batismo" ? "page" : undefined}>{t("Mergulho", "Diving")}</a>
+      <a href={sectionHref("cursos")} aria-current={currentSection === "cursos" ? "page" : undefined}>{t("Cursos", "Courses")}</a>
+      <a href={sectionHref("baleias")} aria-current={currentSection === "baleias" ? "page" : undefined}>{t("Baleias", "Whales")}</a>
+      <a href={sectionHref("sobre")} aria-current={currentSection === "sobre" ? "page" : undefined}>{t("Sobre", "About")}</a>
     </nav>
 
     <div class="header-actions">
       <a
         class="utility-button language-switch"
-        href={withBase(isEnglish ? "/" : "/en/")}
+        href={languageHref}
         lang={isEnglish ? "pt-BR" : "en"}
         aria-label={t("Ver site em inglês", "View site in Portuguese")}
         title={t("English", "Português")}
@@ -89,11 +96,11 @@ const isEnglish = lang === "en";
   </div>
 
   <nav class="mobile-nav" id="mobile-menu" aria-label={t("Navegação mobile", "Mobile navigation")} data-mobile-menu>
-    <a href="#mergulho-recreativo">{t("Mergulho recreativo", "Recreational diving")}</a>
-    <a href="#cursos">{t("Cursos", "Courses")}</a>
-    <a href="#safari-baleias">{t("Safari de baleias", "Whale-watching safari")}</a>
-    <a href="#sobre">{t("Sobre", "About")}</a>
-    <a href="#contato">{t("Contato", "Contact")}</a>
+    <a href={sectionHref("batismo")} aria-current={currentSection === "batismo" ? "page" : undefined}>{t("Mergulho recreativo", "Recreational diving")}</a>
+    <a href={sectionHref("cursos")} aria-current={currentSection === "cursos" ? "page" : undefined}>{t("Cursos", "Courses")}</a>
+    <a href={sectionHref("baleias")} aria-current={currentSection === "baleias" ? "page" : undefined}>{t("Safari de baleias", "Whale-watching safari")}</a>
+    <a href={sectionHref("sobre")} aria-current={currentSection === "sobre" ? "page" : undefined}>{t("Sobre", "About")}</a>
+    <a href={sectionHref("contato")} aria-current={currentSection === "contato" ? "page" : undefined}>{t("Contato", "Contact")}</a>
   </nav>
 </header>
 

@@ -2,6 +2,8 @@
 import { Binoculars, GraduationCap, WavesLadder } from "@lucide/astro";
 import type { Locale } from "../lib/i18n";
 import { translate } from "../lib/i18n";
+import { withBase } from "../lib/path";
+import { sectionPath } from "../lib/routes";
 
 interface Props {
   lang: Locale;
@@ -13,17 +15,17 @@ const t = (pt: string, en: string) => translate(lang, pt, en);
 
 <section class="quick-links" id="acessos" aria-label={t("Acessos rápidos", "Quick links")}>
   <div class="shell quick-grid">
-    <a href="#mergulho-recreativo">
+    <a href={withBase(sectionPath(lang, "batismo"))}>
       <WavesLadder size={22} />
       <span class="quick-label-full">{t("Batismo de mergulho", "Discover scuba diving")}</span>
       <span class="quick-label-mobile">{t("Batismo", "First dive")}</span>
     </a>
-    <a href="#cursos">
+    <a href={withBase(sectionPath(lang, "cursos"))}>
       <GraduationCap size={22} />
       <span class="quick-label-full">{t("Cursos", "Courses")}</span>
       <span class="quick-label-mobile">{t("Cursos", "Courses")}</span>
     </a>
-    <a href="#safari-baleias">
+    <a href={withBase(sectionPath(lang, "baleias"))}>
       <Binoculars size={22} />
       <span class="quick-label-full">{t("Safari de baleias", "Whale-watching safari")}</span>
       <span class="quick-label-mobile">{t("Baleias", "Whales")}</span>

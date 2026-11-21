@@ -9,10 +9,20 @@ interface Props {
   description: string;
   lang?: "pt-BR" | "en";
   image?: string;
+  canonicalPath?: string;
+  alternatePtPath?: string;
+  alternateEnPath?: string;
 }
 
-const { title, description, lang = "pt-BR", image } = Astro.props;
-const canonicalPath = lang === "en" ? "/en/" : "/";
+const {
+  title,
+  description,
+  lang = "pt-BR",
+  image,
+  canonicalPath = lang === "en" ? "/en/" : "/",
+  alternatePtPath = "/",
+  alternateEnPath = "/en/",
+} = Astro.props;
 const canonicalUrl = new URL(canonicalPath, Astro.site);
 
 // Crawlers sociais exigem URL absoluta e não leem srcset — imagem única em 1.91:1.
@@ -54,9 +64,9 @@ const socialImageAlt = lang === "en"
     <link rel="icon" type="image/png" sizes="512x512" href={withBase("/sharkdive-mark-transparent-512.png")} />
     <link rel="apple-touch-icon" sizes="180x180" href={withBase("/sharkdive-mark-transparent-180.png")} />
     <link rel="canonical" href={canonicalUrl} />
-    <link rel="alternate" hreflang="pt-BR" href={new URL("/", Astro.site)} />
-    <link rel="alternate" hreflang="en" href={new URL("/en/", Astro.site)} />
-    <link rel="alternate" hreflang="x-default" href={new URL("/", Astro.site)} />
+    <link rel="alternate" hreflang="pt-BR" href={new URL(alternatePtPath, Astro.site)} />
+    <link rel="alternate" hreflang="en" href={new URL(alternateEnPath, Astro.site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(alternatePtPath, Astro.site)} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Shark Dive" />
     <meta property="og:locale" content={lang === "en" ? "en_US" : "pt_BR"} />

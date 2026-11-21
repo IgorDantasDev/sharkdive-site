@@ -5,6 +5,8 @@ import heroImage from "../assets/acervo/embarcacao-farol.jpg";
 import type { Locale } from "../lib/i18n";
 import { translate } from "../lib/i18n";
 import { whatsappUrl } from "../lib/contact";
+import { withBase } from "../lib/path";
+import { sectionPath } from "../lib/routes";
 
 interface Props {
   lang: Locale;
@@ -50,10 +52,10 @@ const t = (pt: string, en: string) => translate(lang, pt, en);
         {t("Quero fazer um batismo", "I want to try scuba diving")}
         <ArrowRight size={18} />
       </a>
-      <a class="button button-light" href="#cursos">{t("Conhecer cursos", "Explore courses")}</a>
+      <a class="button button-light" href={withBase(sectionPath(lang, "cursos"))}>{t("Conhecer cursos", "Explore courses")}</a>
     </div>
   </div>
-  <a class="hero-scroll" href="#acessos" aria-label={t("Ver serviços", "View services")}>
+  <a class="hero-scroll" href={withBase(sectionPath(lang, "batismo"))} aria-label={t("Ver serviços", "View services")}>
     <span>{t("Explore", "Explore")}</span>
     <ChevronDown size={20} />
   </a>
