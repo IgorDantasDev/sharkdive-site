@@ -11,50 +11,54 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = (pt: string, en: string) => translate(lang, pt, en);
+const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
 ---
 
 <section class="section recreational" id="mergulho-recreativo">
   <div class="shell split-layout">
     <div class="section-heading">
-      <p class="eyebrow">{t("Batismo de mergulho", "Discover scuba diving")}</p>
-      <h2>{t("Sua primeira experiência começa em Salvador.", "Your first diving experience starts in Salvador.")}</h2>
+      <p class="eyebrow">{t("Batismo de mergulho", "Discover scuba diving", "Bautismo de buceo")}</p>
+      <h2>{t("Sua primeira experiência começa em Salvador.", "Your first diving experience starts in Salvador.", "Tu primera experiencia comienza en Salvador.")}</h2>
     </div>
     <div class="section-copy">
       <p class="lead-copy">
         {t(
           "O batismo é a porta de entrada para conhecer o mergulho com acompanhamento profissional nos cenários da Baía de Todos-os-Santos.",
           "Discover scuba diving is your introduction to the underwater world, guided by professionals in the waters of All Saints Bay.",
+          "El bautismo es la puerta de entrada al mundo submarino, con acompañamiento profesional en las aguas de la Bahía de Todos los Santos.",
         )}
       </p>
       <div class="feature-list">
         <article>
           <Anchor size={24} />
           <div>
-            <h3>{t("Feito para iniciantes", "Designed for beginners")}</h3>
+            <h3>{t("Feito para iniciantes", "Designed for beginners", "Diseñado para principiantes")}</h3>
             <p>{t(
               "Não é necessário ter certificação ou experiência anterior para participar.",
               "No certification or previous diving experience is required.",
+              "No necesitas certificación ni experiencia previa en buceo para participar.",
             )}</p>
           </div>
         </article>
         <article>
           <WavesLadder size={24} />
           <div>
-            <h3>{t("Orientação antes do mergulho", "Pre-dive guidance")}</h3>
+            <h3>{t("Orientação antes do mergulho", "Pre-dive guidance", "Orientación antes del buceo")}</h3>
             <p>{t(
               "A equipe apresenta os equipamentos, os procedimentos e as informações da atividade.",
               "Our team introduces the equipment, procedures and essential information before the activity.",
+              "Nuestro equipo presenta el equipo, los procedimientos y la información esencial antes de la actividad.",
             )}</p>
           </div>
         </article>
         <article>
           <ShieldCheck size={24} />
           <div>
-            <h3>{t("Acompanhamento profissional", "Professional supervision")}</h3>
+            <h3>{t("Acompanhamento profissional", "Professional supervision", "Acompañamiento profesional")}</h3>
             <p>{t(
               "O mergulho é conduzido com acompanhamento próximo durante toda a experiência.",
               "The dive is conducted with close professional supervision throughout the experience.",
+              "La inmersión se realiza con acompañamiento profesional cercano durante toda la experiencia.",
             )}</p>
           </div>
         </article>
@@ -64,10 +68,11 @@ const t = (pt: string, en: string) => translate(lang, pt, en);
         href={whatsappUrl(t(
           "Olá! Gostaria de saber mais sobre o batismo de mergulho.",
           "Hello! I would like to learn more about the discover scuba diving experience.",
+          "¡Hola! Me gustaría saber más sobre el bautismo de buceo.",
         ))}
         target="_blank"
         rel="noreferrer"
-      >{t("Consultar batismo", "Ask about your first dive")} <ArrowRight size={17} /></a>
+      >{t("Consultar batismo", "Ask about your first dive", "Consultar bautismo")} <ArrowRight size={17} /></a>
     </div>
   </div>
   <figure class="shell section-media recreational-media">
@@ -81,11 +86,12 @@ const t = (pt: string, en: string) => translate(lang, pt, en);
         alt={t(
           "Mergulhador entrando no mar a partir da embarcação da Shark Dive",
           "Scuba diver entering the sea from the Shark Dive boat",
+          "Buceador entrando al mar desde la embarcación de Shark Dive",
         )}
         loading="lazy"
       />
     </div>
-    <figcaption>{t("Operação de mergulho em Salvador", "Dive operation in Salvador")}</figcaption>
+    <figcaption>{t("Operação de mergulho em Salvador", "Dive operation in Salvador", "Operación de buceo en Salvador")}</figcaption>
   </figure>
 </section>
 

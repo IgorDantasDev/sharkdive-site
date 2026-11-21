@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = (pt: string, en: string) => translate(lang, pt, en);
+const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
 ---
 
 <footer class="site-footer">
@@ -23,7 +23,7 @@ const t = (pt: string, en: string) => translate(lang, pt, en);
         decoding="async"
       />
     </div>
-    <p>{t("Centro de mergulho em Salvador, Bahia.", "Dive center in Salvador, Bahia, Brazil.")}</p>
+    <p>{t("Centro de mergulho em Salvador, Bahia.", "Dive center in Salvador, Bahia, Brazil.", "Centro de buceo en Salvador de Bahía, Brasil.")}</p>
     <p>© {new Date().getFullYear()} Shark Dive</p>
   </div>
 </footer>

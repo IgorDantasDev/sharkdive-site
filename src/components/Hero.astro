@@ -13,7 +13,7 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = (pt: string, en: string) => translate(lang, pt, en);
+const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
 ---
 
 <section class="hero" id="inicio" aria-labelledby="hero-title">
@@ -27,6 +27,7 @@ const t = (pt: string, en: string) => translate(lang, pt, en);
     alt={t(
       "Embarcação da Shark Dive com mergulhadores próxima ao Farol da Barra",
       "Shark Dive boat with scuba divers near Barra Lighthouse",
+      "Embarcación de Shark Dive con buceadores cerca del Faro de Barra",
     )}
     loading="eager"
     fetchpriority="high"
@@ -38,6 +39,7 @@ const t = (pt: string, en: string) => translate(lang, pt, en);
     <p class="hero-lead">{t(
       "Batismo de mergulho, cursos e experiências no mar em Salvador.",
       "Discover scuba diving, courses and marine experiences in Salvador.",
+      "Bautismo de buceo, cursos y experiencias en el mar en Salvador.",
     )}</p>
     <div class="hero-actions">
       <a
@@ -45,18 +47,19 @@ const t = (pt: string, en: string) => translate(lang, pt, en);
         href={whatsappUrl(t(
           "Olá! Gostaria de saber mais sobre o batismo de mergulho.",
           "Hello! I would like to learn more about the discover scuba diving experience.",
+          "¡Hola! Me gustaría saber más sobre el bautismo de buceo.",
         ))}
         target="_blank"
         rel="noreferrer"
       >
-        {t("Quero fazer um batismo", "I want to try scuba diving")}
+        {t("Quero fazer um batismo", "I want to try scuba diving", "Quiero hacer un bautismo")}
         <ArrowRight size={18} />
       </a>
-      <a class="button button-light" href={withBase(sectionPath(lang, "cursos"))}>{t("Conhecer cursos", "Explore courses")}</a>
+      <a class="button button-light" href={withBase(sectionPath(lang, "cursos"))}>{t("Conhecer cursos", "Explore courses", "Conocer los cursos")}</a>
     </div>
   </div>
-  <a class="hero-scroll" href={withBase(sectionPath(lang, "batismo"))} aria-label={t("Ver serviços", "View services")}>
-    <span>{t("Explore", "Explore")}</span>
+  <a class="hero-scroll" href={withBase(sectionPath(lang, "batismo"))} aria-label={t("Ver serviços", "View services", "Ver servicios")}>
+    <span>{t("Explore", "Explore", "Explora")}</span>
     <ChevronDown size={20} />
   </a>
 </section>

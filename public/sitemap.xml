@@ -4,70 +4,126 @@
     <loc>https://www.sharkdive.com.br/</loc>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/" />
   </url>
   <url>
     <loc>https://www.sharkdive.com.br/en/</loc>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/" />
+  </url>
+  <url>
+    <loc>https://www.sharkdive.com.br/es/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/" />
   </url>
   <url>
     <loc>https://www.sharkdive.com.br/inicio/</loc>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/inicio/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/home/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/inicio/" />
   </url>
   <url>
     <loc>https://www.sharkdive.com.br/en/home/</loc>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/inicio/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/home/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/inicio/" />
+  </url>
+  <url>
+    <loc>https://www.sharkdive.com.br/es/inicio/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/inicio/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/home/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/inicio/" />
   </url>
   <url>
     <loc>https://www.sharkdive.com.br/batismo/</loc>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/batismo/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/first-dive/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/bautismo/" />
   </url>
   <url>
     <loc>https://www.sharkdive.com.br/en/first-dive/</loc>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/batismo/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/first-dive/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/bautismo/" />
+  </url>
+  <url>
+    <loc>https://www.sharkdive.com.br/es/bautismo/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/batismo/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/first-dive/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/bautismo/" />
   </url>
   <url>
     <loc>https://www.sharkdive.com.br/cursos/</loc>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/cursos/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/courses/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/cursos/" />
   </url>
   <url>
     <loc>https://www.sharkdive.com.br/en/courses/</loc>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/cursos/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/courses/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/cursos/" />
+  </url>
+  <url>
+    <loc>https://www.sharkdive.com.br/es/cursos/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/cursos/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/courses/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/cursos/" />
   </url>
   <url>
     <loc>https://www.sharkdive.com.br/baleias/</loc>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/baleias/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/whales/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/ballenas/" />
   </url>
   <url>
     <loc>https://www.sharkdive.com.br/en/whales/</loc>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/baleias/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/whales/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/ballenas/" />
+  </url>
+  <url>
+    <loc>https://www.sharkdive.com.br/es/ballenas/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/baleias/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/whales/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/ballenas/" />
   </url>
   <url>
     <loc>https://www.sharkdive.com.br/sobre/</loc>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/sobre/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/about/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/nosotros/" />
   </url>
   <url>
     <loc>https://www.sharkdive.com.br/en/about/</loc>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/sobre/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/about/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/nosotros/" />
+  </url>
+  <url>
+    <loc>https://www.sharkdive.com.br/es/nosotros/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/sobre/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/about/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/nosotros/" />
   </url>
   <url>
     <loc>https://www.sharkdive.com.br/contato/</loc>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/contato/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/contact/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/contacto/" />
   </url>
   <url>
     <loc>https://www.sharkdive.com.br/en/contact/</loc>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/contato/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/contact/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/contacto/" />
+  </url>
+  <url>
+    <loc>https://www.sharkdive.com.br/es/contacto/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.sharkdive.com.br/contato/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sharkdive.com.br/en/contact/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.sharkdive.com.br/es/contacto/" />
   </url>
 </urlset>

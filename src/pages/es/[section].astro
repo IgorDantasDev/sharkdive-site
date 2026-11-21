@@ -1,0 +1,19 @@
+---
+import LandingPage from "../../components/LandingPage.astro";
+import { sectionPath, sectionRouteKeys, sectionRoutes } from "../../lib/routes";
+
+export function getStaticPaths() {
+  return sectionRouteKeys.map((section) => ({
+    params: { section: sectionPath("es", section).split("/").filter(Boolean).at(-1) },
+    props: { section },
+  }));
+}
+
+const { section } = Astro.props;
+
+if (!section || !sectionRoutes[section]) {
+  return Astro.redirect("/es/");
+}
+---
+
+<LandingPage lang="es" initialSection={section} />

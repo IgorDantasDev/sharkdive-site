@@ -20,28 +20,35 @@ interface Props {
 
 const { lang, initialSection } = Astro.props;
 const isEnglish = lang === "en";
+const isSpanish = lang === "es";
 const defaultMeta = {
   title: isEnglish
     ? "Shark Dive | Dives, courses and whales in Salvador"
-    : "Shark Dive | Mergulhos, cursos e baleias em Salvador",
+    : isSpanish
+      ? "Shark Dive | Buceo, cursos y ballenas en Salvador"
+      : "Shark Dive | Mergulhos, cursos e baleias em Salvador",
   description: isEnglish
     ? "Discover scuba diving, SDI courses and whale-watching safaris in Salvador, Bahia, Brazil."
-    : "Batismo de mergulho, cursos SDI e safari para observação de baleias em Salvador, Bahia.",
+    : isSpanish
+      ? "Bautismo de buceo, cursos SDI y safari de ballenas en Salvador de Bahía, Brasil."
+      : "Batismo de mergulho, cursos SDI e safari para observação de baleias em Salvador, Bahia.",
 };
 const route = initialSection ? sectionRoutes[initialSection] : undefined;
-const canonicalPath = initialSection ? sectionPath(lang, initialSection) : (isEnglish ? "/en/" : "/");
+const canonicalPath = initialSection ? sectionPath(lang, initialSection) : (isEnglish ? "/en/" : isSpanish ? "/es/" : "/");
 const alternatePtPath = initialSection ? sectionPath("pt", initialSection) : "/";
 const alternateEnPath = initialSection ? sectionPath("en", initialSection) : "/en/";
+const alternateEsPath = initialSection ? sectionPath("es", initialSection) : "/es/";
 const initialSectionId = route?.id;
 ---
 
 <BaseLayout
   title={route?.title[lang] ?? defaultMeta.title}
   description={route?.description[lang] ?? defaultMeta.description}
-  lang={isEnglish ? "en" : "pt-BR"}
+  lang={isEnglish ? "en" : isSpanish ? "es" : "pt-BR"}
   canonicalPath={canonicalPath}
   alternatePtPath={alternatePtPath}
   alternateEnPath={alternateEnPath}
+  alternateEsPath={alternateEsPath}
 >
   <Header lang={lang} currentSection={initialSection} />
   <main id="conteudo">

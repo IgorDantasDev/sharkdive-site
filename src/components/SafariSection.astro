@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = (pt: string, en: string) => translate(lang, pt, en);
+const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
 ---
 
 <section class="section secondary safari" id="safari-baleias">
@@ -27,17 +27,18 @@ const t = (pt: string, en: string) => translate(lang, pt, en);
           alt={t(
             "Baleia-jubarte saltando no litoral da Bahia",
             "Humpback whale breaching off the coast of Bahia",
+            "Ballena jorobada saltando frente a la costa de Bahía",
           )}
           loading="lazy"
         />
       </div>
-      <figcaption>{t("Baleia-jubarte no litoral baiano", "Humpback whale off the coast of Bahia")}</figcaption>
+      <figcaption>{t("Baleia-jubarte no litoral baiano", "Humpback whale off the coast of Bahia", "Ballena jorobada en la costa de Bahía")}</figcaption>
     </figure>
 
     <div class="safari-layout">
     <div class="section-heading">
-      <p class="eyebrow">{t("Experiência sazonal", "Seasonal experience")}</p>
-      <h2>{t("Safari para observação de baleias.", "Whale-watching safari.")}</h2>
+      <p class="eyebrow">{t("Experiência sazonal", "Seasonal experience", "Experiencia de temporada")}</p>
+      <h2>{t("Safari para observação de baleias.", "Whale-watching safari.", "Safari de avistamiento de ballenas.")}</h2>
     </div>
 
     <div class="safari-content">
@@ -45,12 +46,13 @@ const t = (pt: string, en: string) => translate(lang, pt, en);
       <p class="safari-lead">{t(
         "Observe baleias-jubarte no litoral baiano em uma experiência planejada pela equipe da Shark Dive.",
         "Watch humpback whales off the coast of Bahia on an experience planned by the Shark Dive team.",
+        "Observa ballenas jorobadas en la costa de Bahía en una experiencia planificada por el equipo de Shark Dive.",
       )}</p>
 
       <div class="safari-details">
-        <span><CalendarDays size={19} /> {t("Temporada e datas sob consulta", "Season and dates available on request")}</span>
-        <span><MapPin size={19} /> {t("Saída em Salvador", "Departure from Salvador")}</span>
-        <span><Users size={19} /> {t("Reserva antecipada", "Advance booking")}</span>
+        <span><CalendarDays size={19} /> {t("Temporada e datas sob consulta", "Season and dates available on request", "Temporada y fechas bajo consulta")}</span>
+        <span><MapPin size={19} /> {t("Saída em Salvador", "Departure from Salvador", "Salida desde Salvador")}</span>
+        <span><Users size={19} /> {t("Reserva antecipada", "Advance booking", "Reserva anticipada")}</span>
       </div>
 
       <a
@@ -58,11 +60,12 @@ const t = (pt: string, en: string) => translate(lang, pt, en);
         href={whatsappUrl(t(
           "Olá! Gostaria de saber mais sobre o safari de observação de baleias.",
           "Hello! I would like to learn more about the whale-watching safari.",
+          "¡Hola! Me gustaría saber más sobre el safari de avistamiento de ballenas.",
         ))}
         target="_blank"
         rel="noreferrer"
       >
-        {t("Consultar safari", "Ask about the safari")}
+        {t("Consultar safari", "Ask about the safari", "Consultar safari")}
         <ArrowRight size={18} />
       </a>
     </div>

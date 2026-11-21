@@ -1,5 +1,5 @@
 ---
-import { Languages, Menu, Moon, Sun, X } from "@lucide/astro";
+import { Check, Languages, Menu, Moon, Sun, X } from "@lucide/astro";
 import { siWhatsapp } from "simple-icons";
 import type { Locale } from "../lib/i18n";
 import { translate } from "../lib/i18n";
@@ -14,53 +14,68 @@ interface Props {
 }
 
 const { lang, currentSection } = Astro.props;
-const t = (pt: string, en: string) => translate(lang, pt, en);
-const isEnglish = lang === "en";
+const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
 const sectionHref = (section: SectionRoute) => withBase(sectionPath(lang, section));
-const otherLanguage = isEnglish ? "pt" : "en";
-const languageHref = currentSection
-  ? withBase(sectionPath(otherLanguage, currentSection))
-  : withBase(isEnglish ? "/" : "/en/");
+const languages = [
+  { code: "pt", label: "Português", root: "/" },
+  { code: "en", label: "English", root: "/en/" },
+  { code: "es", label: "Español", root: "/es/" },
+] as const;
+const languageHref = (locale: Locale, root: string) => withBase(
+  currentSection ? sectionPath(locale, currentSection) : root,
+);
 ---
 
 <header class="site-header" data-header>
   <div class="shell header-inner">
-    <a class="brand" href={sectionHref("inicio")} aria-label={t("Shark Dive - início", "Shark Dive - home")}>
+    <a class="brand" href={sectionHref("inicio")} aria-label={t("Shark Dive - início", "Shark Dive - home", "Shark Dive - inicio")}>
       <img
         src={withBase("/images/brand/sharkdive-logo-white.png")}
         width="1999"
         height="787"
-        alt={t("Shark Dive Centro de Mergulho", "Shark Dive Center")}
+        alt={t("Shark Dive Centro de Mergulho", "Shark Dive Center", "Centro de Buceo Shark Dive")}
       />
     </a>
 
-    <nav class="desktop-nav" aria-label={t("Navegação principal", "Main navigation")}>
-      <a href={sectionHref("batismo")} aria-current={currentSection === "batismo" ? "page" : undefined}>{t("Mergulho", "Diving")}</a>
-      <a href={sectionHref("cursos")} aria-current={currentSection === "cursos" ? "page" : undefined}>{t("Cursos", "Courses")}</a>
-      <a href={sectionHref("baleias")} aria-current={currentSection === "baleias" ? "page" : undefined}>{t("Baleias", "Whales")}</a>
-      <a href={sectionHref("sobre")} aria-current={currentSection === "sobre" ? "page" : undefined}>{t("Sobre", "About")}</a>
+    <nav class="desktop-nav" aria-label={t("Navegação principal", "Main navigation", "Navegación principal")}>
+      <a href={sectionHref("batismo")} aria-current={currentSection === "batismo" ? "page" : undefined}>{t("Mergulho", "Diving", "Buceo")}</a>
+      <a href={sectionHref("cursos")} aria-current={currentSection === "cursos" ? "page" : undefined}>{t("Cursos", "Courses", "Cursos")}</a>
+      <a href={sectionHref("baleias")} aria-current={currentSection === "baleias" ? "page" : undefined}>{t("Baleias", "Whales", "Ballenas")}</a>
+      <a href={sectionHref("sobre")} aria-current={currentSection === "sobre" ? "page" : undefined}>{t("Sobre", "About", "Nosotros")}</a>
     </nav>
 
     <div class="header-actions">
-      <a
-        class="utility-button language-switch"
-        href={languageHref}
-        lang={isEnglish ? "pt-BR" : "en"}
-        aria-label={t("Ver site em inglês", "View site in Portuguese")}
-        title={t("English", "Português")}
-      >
-        <Languages size={18} />
-        <span>{isEnglish ? "PT" : "EN"}</span>
-      </a>
+      <details class="language-menu" data-language-menu>
+        <summary
+          class="utility-button language-switch"
+          aria-label={t("Selecionar idioma", "Select language", "Seleccionar idioma")}
+          title={t("Idioma", "Language", "Idioma")}
+        >
+          <Languages size={18} />
+          <span>{lang.toUpperCase()}</span>
+        </summary>
+        <div class="language-options">
+          {languages.map((language) => (
+            <a
+              href={languageHref(language.code, language.root)}
+              lang={language.code === "pt" ? "pt-BR" : language.code}
+              aria-current={language.code === lang ? "page" : undefined}
+            >
+              <span>{language.label}</span>
+              {language.code === lang && <Check size={16} />}
+            </a>
+          ))}
+        </div>
+      </details>
 
       <button
         class="utility-button theme-toggle"
         type="button"
-        aria-label={t("Ativar modo escuro", "Enable dark mode")}
-        title={t("Alternar tema", "Switch theme")}
+        aria-label={t("Ativar modo escuro", "Enable dark mode", "Activar modo oscuro")}
+        title={t("Alternar tema", "Switch theme", "Cambiar tema")}
         data-theme-toggle
-        data-dark-label={t("Ativar modo escuro", "Enable dark mode")}
-        data-light-label={t("Ativar modo claro", "Enable light mode")}
+        data-dark-label={t("Ativar modo escuro", "Enable dark mode", "Activar modo oscuro")}
+        data-light-label={t("Ativar modo claro", "Enable light mode", "Activar modo claro")}
       >
         <Moon class="theme-moon" size={19} />
         <Sun class="theme-sun" size={19} />
@@ -71,23 +86,24 @@ const languageHref = currentSection
         href={whatsappUrl(t(
           "Olá! Gostaria de saber mais sobre os batismos, cursos ou safari de baleias.",
           "Hello! I would like to learn more about first dives, courses or the whale-watching safari.",
+          "¡Hola! Me gustaría saber más sobre los bautismos, cursos o el safari de ballenas.",
         ))}
         target="_blank"
         rel="noreferrer"
       >
         <BrandIcon path={siWhatsapp.path} size={18} />
-        {t("Fale conosco", "Contact us")}
+        {t("Fale conosco", "Contact us", "Contáctanos")}
       </a>
 
       <button
         class="menu-toggle"
         type="button"
-        aria-label={t("Abrir menu", "Open menu")}
+        aria-label={t("Abrir menu", "Open menu", "Abrir menú")}
         aria-expanded="false"
         aria-controls="mobile-menu"
         data-menu-toggle
-        data-open-label={t("Abrir menu", "Open menu")}
-        data-close-label={t("Fechar menu", "Close menu")}
+        data-open-label={t("Abrir menu", "Open menu", "Abrir menú")}
+        data-close-label={t("Fechar menu", "Close menu", "Cerrar menú")}
       >
         <Menu class="menu-open-icon" size={24} />
         <X class="menu-close-icon" size={24} />
@@ -95,12 +111,12 @@ const languageHref = currentSection
     </div>
   </div>
 
-  <nav class="mobile-nav" id="mobile-menu" aria-label={t("Navegação mobile", "Mobile navigation")} data-mobile-menu>
-    <a href={sectionHref("batismo")} aria-current={currentSection === "batismo" ? "page" : undefined}>{t("Mergulho recreativo", "Recreational diving")}</a>
-    <a href={sectionHref("cursos")} aria-current={currentSection === "cursos" ? "page" : undefined}>{t("Cursos", "Courses")}</a>
-    <a href={sectionHref("baleias")} aria-current={currentSection === "baleias" ? "page" : undefined}>{t("Safari de baleias", "Whale-watching safari")}</a>
-    <a href={sectionHref("sobre")} aria-current={currentSection === "sobre" ? "page" : undefined}>{t("Sobre", "About")}</a>
-    <a href={sectionHref("contato")} aria-current={currentSection === "contato" ? "page" : undefined}>{t("Contato", "Contact")}</a>
+  <nav class="mobile-nav" id="mobile-menu" aria-label={t("Navegação mobile", "Mobile navigation", "Navegación móvil")} data-mobile-menu>
+    <a href={sectionHref("batismo")} aria-current={currentSection === "batismo" ? "page" : undefined}>{t("Mergulho recreativo", "Recreational diving", "Buceo recreativo")}</a>
+    <a href={sectionHref("cursos")} aria-current={currentSection === "cursos" ? "page" : undefined}>{t("Cursos", "Courses", "Cursos")}</a>
+    <a href={sectionHref("baleias")} aria-current={currentSection === "baleias" ? "page" : undefined}>{t("Safari de baleias", "Whale-watching safari", "Safari de ballenas")}</a>
+    <a href={sectionHref("sobre")} aria-current={currentSection === "sobre" ? "page" : undefined}>{t("Sobre", "About", "Nosotros")}</a>
+    <a href={sectionHref("contato")} aria-current={currentSection === "contato" ? "page" : undefined}>{t("Contato", "Contact", "Contacto")}</a>
   </nav>
 </header>
 
@@ -108,6 +124,7 @@ const languageHref = currentSection
   const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
   const menu = document.querySelector("[data-mobile-menu]");
   const themeToggle = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
+  const languageMenu = document.querySelector<HTMLDetailsElement>("[data-language-menu]");
 
   const updateMenuLabel = () => {
     if (!toggle) return;
@@ -139,9 +156,19 @@ const languageHref = currentSection
   menu?.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeMenu));
 
   document.addEventListener("keydown", (event) => {
-    if (event.key !== "Escape" || toggle?.getAttribute("aria-expanded") !== "true") return;
-    closeMenu();
-    toggle.focus();
+    if (event.key !== "Escape") return;
+    if (toggle?.getAttribute("aria-expanded") === "true") {
+      closeMenu();
+      toggle.focus();
+    }
+    if (languageMenu?.open) {
+      languageMenu.open = false;
+      languageMenu.querySelector("summary")?.focus();
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (languageMenu?.open && !languageMenu.contains(event.target as Node)) languageMenu.open = false;
   });
 
   themeToggle?.addEventListener("click", () => {
@@ -233,6 +260,49 @@ const languageHref = currentSection
     width: 58px;
     font-size: 0.75rem;
     font-weight: 800;
+  }
+
+  .language-menu {
+    position: relative;
+  }
+
+  .language-menu summary {
+    list-style: none;
+  }
+
+  .language-menu summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .language-options {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    display: grid;
+    width: 168px;
+    overflow: hidden;
+    border: 1px solid var(--border-on-ink);
+    border-radius: 4px;
+    background: var(--ink);
+    box-shadow: 0 16px 36px rgb(0 0 0 / 24%);
+  }
+
+  .language-options a {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+    color: var(--text-on-dark);
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .language-options a:hover,
+  .language-options a[aria-current="page"] {
+    background: var(--ocean-hover);
+    color: white;
   }
 
   .menu-toggle,

@@ -12,27 +12,27 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = (pt: string, en: string) => translate(lang, pt, en);
+const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
 
 const photos = [
   {
     src: cardume,
-    alt: t("Cardume de peixes amarelos em recife de Salvador", "School of yellow fish on a reef in Salvador"),
+    alt: t("Cardume de peixes amarelos em recife de Salvador", "School of yellow fish on a reef in Salvador", "Banco de peces amarillos en un arrecife de Salvador"),
     className: "gallery-item gallery-featured",
   },
   {
     src: mergulhadorRecife,
-    alt: t("Mergulhador diante de um recife com muitos peixes", "Scuba diver in front of a reef filled with fish"),
+    alt: t("Mergulhador diante de um recife com muitos peixes", "Scuba diver in front of a reef filled with fish", "Buceador frente a un arrecife lleno de peces"),
     className: "gallery-item",
   },
   {
     src: mergulhadorCardume,
-    alt: t("Mergulhador nadando junto a um grande cardume", "Scuba diver swimming alongside a large school of fish"),
+    alt: t("Mergulhador nadando junto a um grande cardume", "Scuba diver swimming alongside a large school of fish", "Buceador nadando junto a un gran banco de peces"),
     className: "gallery-item",
   },
   {
     src: baleiasSalvador,
-    alt: t("Duas baleias-jubarte com Salvador ao fundo", "Two humpback whales with Salvador in the background"),
+    alt: t("Duas baleias-jubarte com Salvador ao fundo", "Two humpback whales with Salvador in the background", "Dos ballenas jorobadas con Salvador al fondo"),
     className: "gallery-item gallery-wide",
   },
 ];
@@ -41,12 +41,13 @@ const photos = [
 <section class="section gallery" aria-labelledby="gallery-title">
   <div class="shell gallery-heading">
     <div>
-      <p class="eyebrow">{t("Shark Dive em ação", "Shark Dive in action")}</p>
-      <h2 id="gallery-title">{t("Salvador vista do mar e por baixo dele.", "Salvador from the sea and beneath it.")}</h2>
+      <p class="eyebrow">{t("Shark Dive em ação", "Shark Dive in action", "Shark Dive en acción")}</p>
+      <h2 id="gallery-title">{t("Salvador vista do mar e por baixo dele.", "Salvador from the sea and beneath it.", "Salvador vista desde el mar y bajo sus aguas.")}</h2>
     </div>
     <p>{t(
       "Registros de mergulhos e encontros no litoral baiano publicados pela equipe Shark Dive.",
       "Scenes from dives and marine encounters off the coast of Bahia, published by the Shark Dive team.",
+      "Imágenes de inmersiones y encuentros marinos en la costa de Bahía, publicadas por el equipo de Shark Dive.",
     )}</p>
   </div>
 
@@ -68,6 +69,7 @@ const photos = [
   <p class="shell photo-credit">{t(
     "Acervo Shark Dive. Créditos autorais preservados nas imagens.",
     "Shark Dive archive. Original photo credits are preserved in the images.",
+    "Archivo de Shark Dive. Los créditos originales se conservan en las imágenes.",
   )}</p>
 </section>
 
