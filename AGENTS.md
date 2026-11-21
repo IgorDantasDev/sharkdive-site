@@ -14,11 +14,8 @@ Site estático de um centro de mergulho em Salvador, Bahia. O MVP apresenta:
 Toda conversão acontece por WhatsApp, Instagram ou e-mail. Não há backend, CMS,
 formulário ou pagamento.
 
-O site substituirá uma instalação antiga da Wix e será hospedado no GitHub Pages
-com o domínio `sharkdive.com.br`.
-
-O planejamento editorial e operacional fica em `../sharkdive-planejamento/`,
-principalmente em `PLANO-SITE.md`.
+O site substitui a instalação antiga da Wix e está hospedado no GitHub Pages com
+o domínio canônico `https://www.sharkdive.com.br`.
 
 ## Princípios
 
@@ -27,10 +24,29 @@ principalmente em `PLANO-SITE.md`.
 3. Preservar a componentização e os padrões existentes.
 4. Evitar dependências e JavaScript sem necessidade.
 5. Priorizar acessibilidade, desempenho e manutenção simples.
-6. O preview pode permanecer público no endereço provisório, mas não deve ser
-   divulgado como versão final nem receber o domínio oficial sem validação do
-   cliente.
-7. Não alterar DNS de e-mail durante a migração do site.
+6. Tratar `www.sharkdive.com.br` como produção e o endereço `github.io` apenas
+   como infraestrutura de publicação ou preview técnico.
+7. Não alterar DNS, e-mail, domínio ou serviços externos como parte de uma
+   mudança de código.
+
+## Repositório Público E Segurança
+
+Este repositório é público. Todo arquivo versionado deve ser seguro para leitura
+por qualquer pessoa.
+
+- nunca commitar senhas, tokens, chaves de API, cookies, códigos de recuperação,
+  arquivos `.env`, credenciais ou URLs autenticadas;
+- não registrar situação de cobrança, dados de cartão, conversas de suporte,
+  identificadores de conta ou detalhes de acesso a provedores;
+- não versionar exportações completas de DNS, capturas de painéis ou documentos
+  operacionais que revelem informações além dos registros públicos necessários;
+- não incluir dados pessoais de clientes, mensagens recebidas ou conteúdo de
+  formulários;
+- contatos comerciais já publicados no site podem permanecer no código;
+- variáveis e segredos de implantação devem ser configurados no provedor, nunca
+  escritos no repositório;
+- antes de commitar, revisar o diff e procurar acidentalmente por credenciais ou
+  dados privados.
 
 ## Stack
 
@@ -62,6 +78,7 @@ src/
     GallerySection.astro
     Header.astro
     Hero.astro
+    LandingPage.astro          composição compartilhada dos três idiomas
     LegacyRedirect.astro       casca das rotas antigas da Wix
     QuickLinks.astro
     RecreationalSection.astro
@@ -73,9 +90,14 @@ src/
     contact.ts
     i18n.ts
     path.ts                      aplica o `base` às URLs internas
+    routes.ts                    rotas equivalentes entre os idiomas
   pages/
     index.astro                /
     en/index.astro             /en/
+    en/[section].astro         rotas limpas em inglês
+    es/index.astro             /es/
+    es/[section].astro         rotas limpas em espanhol
+    [section].astro            rotas limpas em português
     dive-sites.astro           rotas legadas: só compõem LegacyRedirect
     courses.astro
     the-team.astro
@@ -95,8 +117,8 @@ astro.config.mjs
 ```
 
 `src/pages/` contém rotas. `src/components/` contém componentes compartilhados e
-seções da landing page. Não duplicar a página em português e inglês: ambas devem
-compor os mesmos componentes e passar apenas o idioma.
+seções da landing page. Não duplicar a página entre idiomas: português, inglês e
+espanhol compõem `LandingPage.astro` e passam apenas o idioma e a seção inicial.
 
 Foto de seção vai em `src/assets/`, nunca em `public/`: arquivo em `public/` o
 Astro copia cru, sem gerar AVIF/WebP nem `srcset`.
@@ -107,16 +129,23 @@ Astro copia cru, sem gerar AVIF/WebP nem `srcset`.
 | --- | --- |
 | `/` | Português do Brasil |
 | `/en/` | Inglês |
+| `/es/` | Espanhol |
+
+As seções também possuem URLs limpas e equivalentes definidas em
+`src/lib/routes.ts`, como `/cursos/`, `/en/courses/` e `/es/cursos/`. Não montar
+navegação nova com hashes; os IDs continuam existindo para compatibilidade e
+rolagem interna.
 
 Todo componente com texto recebe `lang: Locale` e usa `translate()` de
 `src/lib/i18n.ts`.
 
 Regras:
 
-- usar `lang="pt-BR"` na página portuguesa e `lang="en"` na inglesa;
-- manter os dois idiomas semanticamente equivalentes;
+- usar `lang="pt-BR"` na página portuguesa, `lang="en"` na inglesa e `lang="es"`
+  na espanhola;
+- manter os três idiomas semanticamente equivalentes;
 - nomes oficiais dos cursos permanecem em inglês;
-- todo texto novo deve ser adicionado nos dois idiomas;
+- todo texto novo deve ser adicionado nos três idiomas;
 - manter canonical, `hreflang` e `x-default` em `BaseLayout.astro`.
 
 ## Âncoras
@@ -188,7 +217,7 @@ Regras de conteúdo:
 - não buscar ou incorporar conteúdo diretamente do Instagram em tempo de execução;
 - não usar vídeos ou Reels no MVP;
 - não adicionar banco de imagens ou imagem gerada sem decisão explícita;
-- substituir capturas pelos arquivos originais antes da publicação definitiva;
+- substituir capturas pelos arquivos originais quando eles forem disponibilizados;
 - confirmar autoria, autorização e créditos;
 - usar nomes descritivos em kebab-case;
 - imagem informativa precisa de `alt` localizado; decorativa usa `alt=""`.
@@ -278,6 +307,7 @@ a primitiva no `global.css`.
 JavaScript no cliente existe apenas para:
 
 - menu mobile;
+- seletor de idiomas;
 - alternância e persistência do modo claro/noturno.
 
 Preferir HTML e CSS. Não adicionar carrossel automático, rastreamento, widget de
@@ -286,8 +316,8 @@ terceiros ou dependência de runtime sem aprovação.
 ## Métricas
 
 A ferramenta escolhida para métricas é o Umami. A integração deve ser ativada
-somente quando o domínio oficial estiver conectado e validado, evitando misturar
-acessos de desenvolvimento e do preview com os dados reais.
+somente em produção e quando houver configuração própria para o domínio oficial,
+evitando misturar acessos de desenvolvimento e do preview com os dados reais.
 
 Regras:
 
@@ -306,7 +336,7 @@ Regras:
 
 - título e descrição;
 - canonical;
-- `hreflang` para português e inglês;
+- `hreflang` para português, inglês e espanhol;
 - metadados Open Graph e Twitter;
 - favicon e cor de tema.
 
@@ -325,49 +355,37 @@ com `meta refresh`, canonical e link manual de fallback:
 
 | Rota antiga | Destino |
 | --- | --- |
-| `/dive-sites` | `/#mergulho-recreativo` |
-| `/courses` | `/#cursos` |
-| `/the-team` | `/#sobre` |
-| `/contact` | `/#contato` |
-| `/programao-de-mergulho` | `/#mergulho-recreativo` |
+| `/dive-sites` | `/batismo/` |
+| `/courses` | `/cursos/` |
+| `/the-team` | `/sobre/` |
+| `/contact` | `/contato/` |
+| `/programao-de-mergulho` | `/batismo/` |
 
 Não corrigir o slug legado `/programao-de-mergulho`.
 
 ## Domínio, DNS E E-mail
 
-O domínio é registrado no Registro.br, mas usa `ns1.wix.com` e `ns2.wix.com`.
-A zona DNS autoritativa é administrada pela Wix. O e-mail utiliza Google
-Workspace e sua assinatura pode ter sido adquirida por meio da Wix.
+O domínio canônico é `https://www.sharkdive.com.br`, servido pelo GitHub Pages.
+O domínio raiz deve encaminhar para a versão com `www`. O e-mail corporativo é
+um serviço independente da hospedagem do site.
 
-O domínio canônico adotado pelo projeto é `https://www.sharkdive.com.br`. No
-lançamento, `https://sharkdive.com.br` deve encaminhar para a versão com `www`.
+Mudanças neste repositório não autorizam alterações em DNS ou e-mail. Quando uma
+tarefa externa for explicitamente solicitada:
 
-Na migração:
-
-- alterar somente registros comprovadamente ligados ao site;
-- preservar MX, SPF, DKIM, DMARC e verificações Google;
-- preservar `mail.sharkdive.com.br` até validação técnica;
-- registrar todos os valores anteriores;
-- manter os nameservers da Wix na primeira tentativa de migração e alterar apenas
-  os registros web, caso o painel permita apontamento externo;
-- testar envio e recebimento de e-mail após a troca;
-- validar domínio raiz, `www`, redirecionamento canônico e HTTPS;
-- não cancelar a Wix antes da estabilização do novo site.
-- não cancelar a assinatura separada de Business Email/Google Workspace.
-
-Nunca alterar DNS sem confirmação explícita, acesso ao provedor autoritativo e
-plano de retorno.
+- alterar somente registros comprovadamente ligados ao objetivo;
+- preservar MX, SPF, DKIM, DMARC e verificações do provedor de e-mail;
+- registrar valores anteriores em local privado e manter plano de retorno;
+- testar site, HTTPS, redirecionamento canônico, envio e recebimento de e-mail;
+- nunca publicar credenciais, dados de cobrança ou snapshots completos da zona.
 
 ## Publicação No GitHub Pages
 
-O Pages publica o branch `gh-pages` (modo branch, não Actions). O GitHub
-Actions da conta está bloqueado por cobrança desde 2026-11-17, então o
-workflow `.github/workflows/deploy.yml` só roda manualmente e não é o caminho
-de publicação. Publicar com:
+O Pages publica o branch `gh-pages` em modo branch. A publicação suportada pelo
+projeto é feita pelo script:
 
 ```sh
 scripts/publish-pages.sh preview      # igordantasdev.github.io/sharkdive-site/
-scripts/publish-pages.sh production   # www.sharkdive.com.br, só no lançamento
+scripts/publish-pages.sh production   # publica em www.sharkdive.com.br
 DRY_RUN=1 scripts/publish-pages.sh preview   # gera o commit, sem push
 ```
 
@@ -377,17 +395,9 @@ O script exige working tree limpa, roda `typecheck` e `build` com o
 apontam para `https://www.sharkdive.com.br` nos dois modos.
 
 Em `production` o script grava `dist/CNAME` com `www.sharkdive.com.br`. No modo
-branch é esse arquivo que cadastra o domínio no Pages: publicar sem ele remove o
-domínio. Não rodar `production` antes do lançamento — o preview `github.io`
-passa a redirecionar para o domínio, que ainda aponta para a Wix.
-
-Estado anterior da zona DNS e passo a passo do lançamento ficam em
-`../sharkdive-planejamento/DNS-WIX-SNAPSHOT.md` e `RUNBOOK-LANCAMENTO.md`.
-
-Se o Actions voltar: restaurar o gatilho `push` no workflow, trocar a origem do
-Pages para "GitHub Actions" e criar a variável de repositório
-`SITE_BASE_PATH=/` no lançamento (no workflow o `base` é inferido de
-`GITHUB_REPOSITORY`).
+branch é esse arquivo que mantém o domínio cadastrado no Pages; publicar sem ele
+pode remover a associação. Exigir working tree limpa e concluir as verificações
+antes de publicar.
 
 ## Verificação
 
@@ -403,7 +413,7 @@ yarn preview
 Não há suíte automatizada completa. Antes de concluir uma alteração:
 
 1. Rodar `yarn typecheck` e `yarn build`.
-2. Conferir `/` e `/en/`.
+2. Conferir `/`, `/en/` e `/es/`.
 3. Conferir desktop, 940px e 640px.
 4. Testar menu, tema, âncoras e links externos.
 5. Navegar por teclado (Tab) nas seções claras **e** escuras: o anel de foco tem
@@ -424,7 +434,7 @@ essa parte só o olho pega.
 - Não copiar o site Wix como fonte de verdade.
 - Não depender do Instagram para renderizar conteúdo.
 - Não adicionar vídeo no MVP.
-- Não remover a versão inglesa ou o modo noturno.
+- Não remover as versões inglesa ou espanhola nem o modo noturno.
 - Não desfazer a componentização.
 - Não devolver CSS de seção para o `global.css`; lá só entra primitiva compartilhada.
 - Não criar token nomeado por lugar (`--contact-x`, `--footer-y`) — nomear por papel.
@@ -432,4 +442,4 @@ essa parte só o olho pega.
 - Não voltar a carregar fonte de origem externa; os woff2 são auto-hospedados.
 - Não adicionar framework de UI ou runtime desnecessário.
 - Não renomear âncoras sem atualizar seus consumidores.
-- Não quebrar registros de e-mail durante a migração.
+- Não quebrar registros de e-mail em operações externas de domínio ou DNS.
