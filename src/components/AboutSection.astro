@@ -1,6 +1,7 @@
 ---
+import { aboutCopy } from "../content/site";
 import type { Locale } from "../lib/i18n";
-import { translate } from "../lib/i18n";
+import { selectCopy } from "../lib/i18n";
 import { withBase } from "../lib/path";
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
+const copy = selectCopy(lang, aboutCopy);
 ---
 
 <section class="section about" id="sobre">
@@ -24,21 +25,13 @@ const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
       />
     </div>
     <div>
-      <p class="eyebrow">{t("Sobre nós", "About us", "Sobre nosotros")}</p>
-      <h2>{t("Uma equipe preparada para receber você.", "A team ready to welcome you.", "Un equipo preparado para recibirte.")}</h2>
+      <p class="eyebrow">{copy.eyebrow}</p>
+      <h2>{copy.title}</h2>
       <p class="lead-copy">
-        {t(
-          "Somos uma equipe especializada, formada por instrutores em todos os níveis, divemasters experientes e profissionais de marinharia treinados e em sintonia com cada mergulho.",
-          "We are a specialized team of instructors at every level, experienced divemasters and trained boat crew working in sync with every dive.",
-          "Somos un equipo especializado, formado por instructores de todos los niveles, divemasters experimentados y tripulación capacitada que trabaja en sintonía con cada inmersión.",
-        )}
+        {copy.lead}
       </p>
       <p class="about-detail">
-        {t(
-          "Nossa atuação atual está concentrada em batismos de mergulho, formação de mergulhadores e safaris para observação de baleias.",
-          "Our current activities focus on first-time scuba experiences, diver training and whale-watching safaris.",
-          "Nuestras actividades actuales se centran en bautismos de buceo, formación de buceadores y safaris de avistamiento de ballenas.",
-        )}
+        {copy.detail}
       </p>
     </div>
   </div>

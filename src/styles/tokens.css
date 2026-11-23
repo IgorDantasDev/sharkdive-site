@@ -1,0 +1,54 @@
+/* Tokens nomeados por papel, nunca por seção ou posição. */
+:root {
+  --red: #e91f2b;
+  --red-dark: #bd121c;
+  --teal: #007e99;
+  --ocean: #006b82;
+  --abyss: #062e3b;
+  --surface-deep: #031f29;
+  --ink: #172126;
+  --muted: #50666d;
+  --paper: #ffffff;
+  --surface-always-light: #ffffff;
+  --text-on-light: #172126;
+  --soft: #eaf5f6;
+  --water: #dceff1;
+  --line: #c8dfe3;
+  --body-text: var(--ink);
+  --lead-ink: #29434b;
+  --text-on-dark: #d7ecef;
+  --text-on-dark-muted: #b8cecc;
+  --accent-on-dark: #7de4ef;
+  --accent-on-dark-bright: #52d8e8;
+  --red-on-dark: #ff6871;
+  --red-on-dark-hover: #ff8b91;
+  --border-on-dark: #164957;
+  --border-on-ink: #313638;
+  --ocean-hover: #0a4352;
+  --course-surface: var(--paper);
+  --secondary-bg: var(--ocean);
+  --contact-bg: var(--abyss);
+  --inverse-button-bg: var(--ink);
+  --inverse-button-text: #ffffff;
+  --focus: #0a4352;
+  --focus-on-dark: #ffd166;
+  --display: "Barlow Condensed", Arial, sans-serif;
+  --body: "Inter", Arial, sans-serif;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --muted: #b4cbd0;
+  --paper: #061c24;
+  --soft: #0b2730;
+  --line: #28505a;
+  --water: #08252e;
+  --lead-ink: #cee1e4;
+  --body-text: #edf6f7;
+  --course-surface: #0d3039;
+  --inverse-button-bg: #eef3f2;
+  --inverse-button-text: #101416;
+  --secondary-bg: #073f4f;
+  --contact-bg: #041a22;
+  --focus: var(--focus-on-dark);
+}

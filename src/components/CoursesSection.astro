@@ -2,8 +2,9 @@
 import { Picture } from "astro:assets";
 import { ChevronDown } from "@lucide/astro";
 import mergulhoTecnicoVega from "../assets/acervo/mergulho-tecnico-vega.jpg";
+import { courseGroupCopy, coursesCopy } from "../content/site";
 import type { Locale } from "../lib/i18n";
-import { translate } from "../lib/i18n";
+import { selectCopy } from "../lib/i18n";
 import { whatsappUrl } from "../lib/contact";
 
 interface Props {
@@ -11,95 +12,22 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
-
-const courseGroups = [
-  {
-    eyebrow: t("Comece aqui", "Start here", "Comienza aquí"),
-    title: t("Primeira experiência", "First experience", "Primera experiencia"),
-    description: t(
-      "Para quem quer conhecer o mergulho com acompanhamento profissional.",
-      "For anyone who wants to discover scuba diving with professional guidance.",
-      "Para quienes quieren descubrir el buceo con acompañamiento profesional.",
-    ),
-    courses: ["Scuba Discovery"],
-  },
-  {
-    eyebrow: t("Certificação", "Certification", "Certificación"),
-    title: t("Formação inicial", "Entry-level training", "Formación inicial"),
-    description: t(
-      "O caminho para se tornar um mergulhador certificado.",
-      "Your path to becoming a certified scuba diver.",
-      "El camino para convertirte en buceador certificado.",
-    ),
-    courses: ["SDI Open Water Scuba Diver"],
-  },
-  {
-    eyebrow: t("Desenvolvimento", "Development", "Desarrollo"),
-    title: t("Evolução e segurança", "Skills and safety", "Evolución y seguridad"),
-    description: t(
-      "Treinamentos para ganhar experiência, controle e autonomia.",
-      "Training to build experience, control and independence.",
-      "Formación para ganar experiencia, control y autonomía.",
-    ),
-    courses: [
-      "Advanced Adventure Diver",
-      "Advanced Buoyancy Diver",
-      "Rescue Diver",
-      "Refresher Course",
-    ],
-  },
-  {
-    eyebrow: t("Novos desafios", "New challenges", "Nuevos desafíos"),
-    title: t("Especialidades", "Specialties", "Especialidades"),
-    description: t(
-      "Formações para explorar novos ambientes e modalidades.",
-      "Training to explore new environments and diving disciplines.",
-      "Formación para explorar nuevos entornos y modalidades de buceo.",
-    ),
-    courses: [
-      "Deep Diver",
-      "Underwater Navigation Diver",
-      "Computer Nitrox Diver",
-      "Wreck Diver",
-      "Dry Suit Diver",
-      "SDI Sidemount Diver",
-      "Solo Diver",
-      "Diver Propulsion Vehicle Diver",
-      "Night-Limited Visibility Diver",
-    ],
-  },
-  {
-    eyebrow: t("Mergulho técnico · TDI", "Technical diving · TDI", "Buceo técnico · TDI"),
-    title: t("Formação técnica", "Technical training", "Formación técnica"),
-    description: t(
-      "Cursos para avançar no planejamento, nos gases e nos procedimentos do mergulho técnico.",
-      "Courses focused on technical diving planning, gases and procedures.",
-      "Cursos centrados en la planificación, los gases y los procedimientos del buceo técnico.",
-    ),
-    courses: [
-      "Intro To Tech",
-      "Nitrox Diver",
-      "Advanced Nitrox Diver",
-      "Decompression Procedures Diver",
-    ],
-  },
-];
+const copy = selectCopy(lang, coursesCopy);
+const courseGroups = courseGroupCopy.map(({ copy: groupCopy, courses }) => ({
+  ...selectCopy(lang, groupCopy),
+  courses,
+}));
 ---
 
 <section class="section courses" id="cursos">
   <div class="shell">
     <div class="courses-intro">
       <div class="section-heading">
-        <p class="eyebrow">{t("Cursos e especialidades", "Courses and specialties", "Cursos y especialidades")}</p>
-        <h2>{t("Formação para cada fase do mergulho.", "Training for every stage of your diving journey.", "Formación para cada etapa de tu camino en el buceo.")}</h2>
+        <p class="eyebrow">{copy.eyebrow}</p>
+        <h2>{copy.title}</h2>
       </div>
       <p>
-        {t(
-          "Comece do zero, atualize suas habilidades ou avance para novas modalidades com cursos SDI e TDI. Turmas, pré-requisitos, locais e disponibilidade devem ser consultados com a equipe.",
-          "Start from scratch, refresh your skills or explore new disciplines with SDI and TDI courses. Contact our team for schedules, prerequisites, locations and availability.",
-          "Comienza desde cero, actualiza tus habilidades o avanza hacia nuevas modalidades con cursos SDI y TDI. Consulta con nuestro equipo sobre grupos, requisitos, lugares y disponibilidad.",
-        )}
+        {copy.introduction}
       </p>
     </div>
 
@@ -111,15 +39,11 @@ const courseGroups = [
           fallbackFormat="jpeg"
           widths={[640, 1024, 1440]}
           sizes="(max-width: 940px) 100vw, 60vw"
-          alt={t(
-            "Mergulhadores da Shark Dive durante atividade de mergulho técnico",
-            "Shark Dive divers during a technical diving activity",
-            "Buceadores de Shark Dive durante una actividad de buceo técnico",
-          )}
+          alt={copy.imageAlt}
           loading="lazy"
         />
       </div>
-      <figcaption>{t("Treinamento, técnica e experiência no mar", "Training, technique and experience at sea", "Entrenamiento, técnica y experiencia en el mar")}</figcaption>
+      <figcaption>{copy.caption}</figcaption>
     </figure>
 
     <div class="course-list">
@@ -143,24 +67,20 @@ const courseGroups = [
 
     <div class="career-band">
       <div>
-        <p class="eyebrow">{t("Formação e carreira", "Training and career", "Formación y carrera")}</p>
-        <h3>{t("Transforme experiência em profissão.", "Turn experience into a profession.", "Convierte la experiencia en profesión.")}</h3>
+        <p class="eyebrow">{copy.careerEyebrow}</p>
+        <h3>{copy.careerTitle}</h3>
       </div>
-      <div class="career-levels" aria-label={t("Cursos de formação profissional", "Professional training courses", "Cursos de formación profesional")}>
+      <div class="career-levels" aria-label={copy.careerLabel}>
         <span>Divemaster SDI</span>
         <span>Assistant Instructor</span>
         <span>Open Water Scuba Diver Instructor</span>
       </div>
       <a
         class="button button-dark"
-        href={whatsappUrl(t(
-          "Olá! Gostaria de saber mais sobre os cursos de formação e carreira.",
-          "Hello! I would like to learn more about professional training and career courses.",
-          "¡Hola! Me gustaría saber más sobre los cursos de formación profesional y carrera.",
-        ))}
+        href={whatsappUrl(copy.careerMessage)}
         target="_blank"
         rel="noreferrer"
-      >{t("Falar com um instrutor", "Talk to an instructor", "Hablar con un instructor")}</a>
+      >{copy.careerCta}</a>
     </div>
   </div>
 </section>

@@ -1,5 +1,7 @@
 ---
 import type { Locale } from "../lib/i18n";
+import { localeSettings, selectCopy } from "../lib/i18n";
+import { landingCopy } from "../content/site";
 import { sectionPath, sectionRoutes, type SectionRoute } from "../lib/routes";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import AboutSection from "./AboutSection.astro";
@@ -19,22 +21,9 @@ interface Props {
 }
 
 const { lang, initialSection } = Astro.props;
-const isEnglish = lang === "en";
-const isSpanish = lang === "es";
-const defaultMeta = {
-  title: isEnglish
-    ? "Shark Dive | Dives, courses and whales in Salvador"
-    : isSpanish
-      ? "Shark Dive | Buceo, cursos y ballenas en Salvador"
-      : "Shark Dive | Mergulhos, cursos e baleias em Salvador",
-  description: isEnglish
-    ? "Discover scuba diving, SDI courses and whale-watching safaris in Salvador, Bahia, Brazil."
-    : isSpanish
-      ? "Bautismo de buceo, cursos SDI y safari de ballenas en Salvador de Bahía, Brasil."
-      : "Batismo de mergulho, cursos SDI e safari para observação de baleias em Salvador, Bahia.",
-};
+const defaultMeta = selectCopy(lang, landingCopy);
 const route = initialSection ? sectionRoutes[initialSection] : undefined;
-const canonicalPath = initialSection ? sectionPath(lang, initialSection) : (isEnglish ? "/en/" : isSpanish ? "/es/" : "/");
+const canonicalPath = initialSection ? sectionPath(lang, initialSection) : localeSettings[lang].rootPath;
 const alternatePtPath = initialSection ? sectionPath("pt", initialSection) : "/";
 const alternateEnPath = initialSection ? sectionPath("en", initialSection) : "/en/";
 const alternateEsPath = initialSection ? sectionPath("es", initialSection) : "/es/";
@@ -44,7 +33,7 @@ const initialSectionId = route?.id;
 <BaseLayout
   title={route?.title[lang] ?? defaultMeta.title}
   description={route?.description[lang] ?? defaultMeta.description}
-  lang={isEnglish ? "en" : isSpanish ? "es" : "pt-BR"}
+  lang={lang}
   canonicalPath={canonicalPath}
   alternatePtPath={alternatePtPath}
   alternateEnPath={alternateEnPath}

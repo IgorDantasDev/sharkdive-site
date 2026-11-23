@@ -1,6 +1,7 @@
 ---
+import { footerCopy } from "../content/site";
 import type { Locale } from "../lib/i18n";
-import { translate } from "../lib/i18n";
+import { selectCopy } from "../lib/i18n";
 import { withBase } from "../lib/path";
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
+const copy = selectCopy(lang, footerCopy);
 ---
 
 <footer class="site-footer">
@@ -23,7 +24,7 @@ const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
         decoding="async"
       />
     </div>
-    <p>{t("Centro de mergulho em Salvador, Bahia.", "Dive center in Salvador, Bahia, Brazil.", "Centro de buceo en Salvador de Bahía, Brasil.")}</p>
+    <p>{copy.description}</p>
     <p>© {new Date().getFullYear()} Shark Dive</p>
   </div>
 </footer>

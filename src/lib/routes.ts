@@ -100,5 +100,7 @@ export const sectionRouteKeys = Object.keys(sectionRoutes) as SectionRoute[];
 
 export const sectionPath = (lang: Locale, section: SectionRoute) => sectionRoutes[section].paths[lang];
 
-export const sectionFromSlug = (lang: Locale, slug: string) =>
-  sectionRouteKeys.find((section) => sectionPath(lang, section).split("/").filter(Boolean).at(-1) === slug);
+export const getSectionStaticPaths = (lang: Locale) => sectionRouteKeys.map((section) => ({
+  params: { section: sectionPath(lang, section).split("/").filter(Boolean).at(-1) },
+  props: { section },
+}));

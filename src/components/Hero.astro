@@ -2,8 +2,9 @@
 import { Picture } from "astro:assets";
 import { ArrowRight, ChevronDown, MapPin } from "@lucide/astro";
 import heroImage from "../assets/acervo/embarcacao-farol.jpg";
+import { heroCopy } from "../content/site";
 import type { Locale } from "../lib/i18n";
-import { translate } from "../lib/i18n";
+import { selectCopy } from "../lib/i18n";
 import { whatsappUrl } from "../lib/contact";
 import { withBase } from "../lib/path";
 import { sectionPath } from "../lib/routes";
@@ -13,7 +14,7 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
+const copy = selectCopy(lang, heroCopy);
 ---
 
 <section class="hero" id="inicio" aria-labelledby="hero-title">
@@ -24,11 +25,7 @@ const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
     fallbackFormat="jpeg"
     widths={[640, 1024, 1440, 1920]}
     sizes="100vw"
-    alt={t(
-      "Embarcação da Shark Dive com mergulhadores próxima ao Farol da Barra",
-      "Shark Dive boat with scuba divers near Barra Lighthouse",
-      "Embarcación de Shark Dive con buceadores cerca del Faro de Barra",
-    )}
+    alt={copy.imageAlt}
     loading="eager"
     fetchpriority="high"
   />
@@ -36,30 +33,22 @@ const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
   <div class="shell hero-content">
     <p class="hero-kicker"><MapPin size={17} /> Salvador, Bahia</p>
     <h1 id="hero-title">Shark Dive</h1>
-    <p class="hero-lead">{t(
-      "Batismo de mergulho, cursos e experiências no mar em Salvador.",
-      "Discover scuba diving, courses and marine experiences in Salvador.",
-      "Bautismo de buceo, cursos y experiencias en el mar en Salvador.",
-    )}</p>
+    <p class="hero-lead">{copy.lead}</p>
     <div class="hero-actions">
       <a
         class="button button-primary"
-        href={whatsappUrl(t(
-          "Olá! Gostaria de saber mais sobre o batismo de mergulho.",
-          "Hello! I would like to learn more about the discover scuba diving experience.",
-          "¡Hola! Me gustaría saber más sobre el bautismo de buceo.",
-        ))}
+        href={whatsappUrl(copy.firstDiveMessage)}
         target="_blank"
         rel="noreferrer"
       >
-        {t("Quero fazer um batismo", "I want to try scuba diving", "Quiero hacer un bautismo")}
+        {copy.firstDiveCta}
         <ArrowRight size={18} />
       </a>
-      <a class="button button-light" href={withBase(sectionPath(lang, "cursos"))}>{t("Conhecer cursos", "Explore courses", "Conocer los cursos")}</a>
+      <a class="button button-light" href={withBase(sectionPath(lang, "cursos"))}>{copy.coursesCta}</a>
     </div>
   </div>
-  <a class="hero-scroll" href={withBase(sectionPath(lang, "batismo"))} aria-label={t("Ver serviços", "View services", "Ver servicios")}>
-    <span>{t("Explore", "Explore", "Explora")}</span>
+  <a class="hero-scroll" href={withBase(sectionPath(lang, "batismo"))} aria-label={copy.servicesLabel}>
+    <span>{copy.explore}</span>
     <ChevronDown size={20} />
   </a>
 </section>

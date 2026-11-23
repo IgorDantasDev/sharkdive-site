@@ -2,8 +2,9 @@
 import { Picture } from "astro:assets";
 import { ArrowRight, Binoculars, CalendarDays, MapPin, Users } from "@lucide/astro";
 import baleiaSalto from "../assets/acervo/baleia-salto.jpg";
+import { safariCopy } from "../content/site";
 import type { Locale } from "../lib/i18n";
-import { translate } from "../lib/i18n";
+import { selectCopy } from "../lib/i18n";
 import { whatsappUrl } from "../lib/contact";
 
 interface Props {
@@ -11,7 +12,7 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
+const copy = selectCopy(lang, safariCopy);
 ---
 
 <section class="section secondary safari" id="safari-baleias">
@@ -24,48 +25,36 @@ const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
           fallbackFormat="jpeg"
           widths={[640, 1024, 1440, 1800]}
           sizes="(max-width: 1180px) 100vw, 1180px"
-          alt={t(
-            "Baleia-jubarte saltando no litoral da Bahia",
-            "Humpback whale breaching off the coast of Bahia",
-            "Ballena jorobada saltando frente a la costa de Bahía",
-          )}
+          alt={copy.imageAlt}
           loading="lazy"
         />
       </div>
-      <figcaption>{t("Baleia-jubarte no litoral baiano", "Humpback whale off the coast of Bahia", "Ballena jorobada en la costa de Bahía")}</figcaption>
+      <figcaption>{copy.caption}</figcaption>
     </figure>
 
     <div class="safari-layout">
     <div class="section-heading">
-      <p class="eyebrow">{t("Experiência sazonal", "Seasonal experience", "Experiencia de temporada")}</p>
-      <h2>{t("Safari para observação de baleias.", "Whale-watching safari.", "Safari de avistamiento de ballenas.")}</h2>
+      <p class="eyebrow">{copy.eyebrow}</p>
+      <h2>{copy.title}</h2>
     </div>
 
     <div class="safari-content">
       <Binoculars class="safari-icon" size={36} />
-      <p class="safari-lead">{t(
-        "Observe baleias-jubarte no litoral baiano em uma experiência planejada pela equipe da Shark Dive.",
-        "Watch humpback whales off the coast of Bahia on an experience planned by the Shark Dive team.",
-        "Observa ballenas jorobadas en la costa de Bahía en una experiencia planificada por el equipo de Shark Dive.",
-      )}</p>
+      <p class="safari-lead">{copy.lead}</p>
 
       <div class="safari-details">
-        <span><CalendarDays size={19} /> {t("Temporada e datas sob consulta", "Season and dates available on request", "Temporada y fechas bajo consulta")}</span>
-        <span><MapPin size={19} /> {t("Saída em Salvador", "Departure from Salvador", "Salida desde Salvador")}</span>
-        <span><Users size={19} /> {t("Reserva antecipada", "Advance booking", "Reserva anticipada")}</span>
+        <span><CalendarDays size={19} /> {copy.season}</span>
+        <span><MapPin size={19} /> {copy.departure}</span>
+        <span><Users size={19} /> {copy.booking}</span>
       </div>
 
       <a
         class="button button-primary"
-        href={whatsappUrl(t(
-          "Olá! Gostaria de saber mais sobre o safari de observação de baleias.",
-          "Hello! I would like to learn more about the whale-watching safari.",
-          "¡Hola! Me gustaría saber más sobre el safari de avistamiento de ballenas.",
-        ))}
+        href={whatsappUrl(copy.message)}
         target="_blank"
         rel="noreferrer"
       >
-        {t("Consultar safari", "Ask about the safari", "Consultar safari")}
+        {copy.cta}
         <ArrowRight size={18} />
       </a>
     </div>

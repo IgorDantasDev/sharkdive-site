@@ -54,11 +54,11 @@ por qualquer pessoa.
 | --- | --- |
 | Framework | Astro 5, TypeScript strict, saída estática |
 | Pacotes | Yarn |
-| Estilo | CSS puro: `src/styles/global.css` + `<style>` com escopo por componente |
+| Estilo | CSS puro: entrada global modular + `<style>` com escopo por componente |
 | Imagens | `astro:assets` (`<Picture>`/`getImage`) a partir de `src/assets/` |
 | Fontes | auto-hospedadas em `public/fonts` (Inter variável + Barlow Condensed 700) |
 | Ícones | `@lucide/astro` e `simple-icons` |
-| Interação | JavaScript vanilla somente para menu e tema |
+| Interação | JavaScript vanilla somente para menu, idiomas e tema |
 | Hospedagem | GitHub Pages |
 
 Não adicionar React, Vue, Svelte, Tailwind, CSS-in-JS ou integração Astro sem uma
@@ -84,6 +84,8 @@ src/
     RecreationalSection.astro
     SafariSection.astro
     SiteFooter.astro
+  content/
+    site.ts                    textos e configurações localizadas
   layouts/
     BaseLayout.astro
   lib/
@@ -104,7 +106,11 @@ src/
     contact.astro
     programao-de-mergulho.astro
   styles/
-    global.css
+    global.css                ponto de entrada dos estilos compartilhados
+    fonts.css                 declarações de fontes auto-hospedadas
+    tokens.css                tokens de tema claro e escuro
+    base.css                  reset, documento e tipografia base
+    primitives.css            padrões reutilizados entre componentes
 public/
   fonts/                       woff2 auto-hospedados
   images/                      só o logo (favicon precisa de URL estável)
@@ -136,8 +142,9 @@ As seções também possuem URLs limpas e equivalentes definidas em
 navegação nova com hashes; os IDs continuam existindo para compatibilidade e
 rolagem interna.
 
-Todo componente com texto recebe `lang: Locale` e usa `translate()` de
-`src/lib/i18n.ts`.
+Todo componente com texto recebe `lang: Locale`, seleciona sua configuração com
+`selectCopy()` de `src/lib/i18n.ts` e mantém o conteúdo localizado em
+`src/content/site.ts`.
 
 Regras:
 
@@ -146,6 +153,7 @@ Regras:
 - manter os três idiomas semanticamente equivalentes;
 - nomes oficiais dos cursos permanecem em inglês;
 - todo texto novo deve ser adicionado nos três idiomas;
+- não escrever blocos de tradução diretamente no markup do componente;
 - manter canonical, `hreflang` e `x-default` em `BaseLayout.astro`.
 
 ## Âncoras
@@ -255,11 +263,15 @@ O CSS é dividido por responsabilidade, não por arquivo único:
 
 | Onde | O que mora ali |
 | --- | --- |
-| `src/styles/global.css` | `@font-face`, tokens `:root`, bloco do tema escuro, reset, tipografia base e primitivas usadas por **mais de um** componente: `.shell`, `.section`, `.eyebrow`, `.lead-copy`, `.split-layout`, `.text-link`, `.button*`, `.section-media`, `.media-crop*` |
+| `src/styles/global.css` | Somente o ponto de entrada que importa os módulos globais na ordem correta |
+| `src/styles/fonts.css` | Declarações `@font-face` das fontes auto-hospedadas |
+| `src/styles/tokens.css` | Tokens `:root` e overrides do tema escuro |
+| `src/styles/base.css` | Reset, documento e tipografia base |
+| `src/styles/primitives.css` | Padrões usados por **mais de um** componente: `.shell`, `.section`, `.eyebrow`, `.lead-copy`, `.split-layout`, `.text-link`, `.button*`, `.section-media`, `.media-crop*` |
 | `<style>` do componente | CSS da própria seção, incluindo suas media queries e seus modificadores |
 
 Regra de decisão: **usado por um componente só, mora nele.** Só sobe para o
-`global.css` o que dois ou mais componentes precisam.
+conjunto global o que dois ou mais componentes precisam.
 
 O motivo não é tamanho — é que CSS de seção morre junto com a seção. Enquanto
 tudo era global, apagar um componente deixava regra órfã para sempre.

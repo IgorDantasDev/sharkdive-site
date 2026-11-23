@@ -1,7 +1,8 @@
 ---
 import { Binoculars, GraduationCap, WavesLadder } from "@lucide/astro";
+import { quickLinksCopy } from "../content/site";
 import type { Locale } from "../lib/i18n";
-import { translate } from "../lib/i18n";
+import { selectCopy } from "../lib/i18n";
 import { withBase } from "../lib/path";
 import { sectionPath } from "../lib/routes";
 
@@ -10,25 +11,25 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
+const copy = selectCopy(lang, quickLinksCopy);
 ---
 
-<section class="quick-links" id="acessos" aria-label={t("Acessos rápidos", "Quick links", "Accesos rápidos")}>
+<section class="quick-links" id="acessos" aria-label={copy.label}>
   <div class="shell quick-grid">
     <a href={withBase(sectionPath(lang, "batismo"))}>
       <WavesLadder size={22} />
-      <span class="quick-label-full">{t("Batismo de mergulho", "Discover scuba diving", "Bautismo de buceo")}</span>
-      <span class="quick-label-mobile">{t("Batismo", "First dive", "Bautismo")}</span>
+      <span class="quick-label-full">{copy.firstDive}</span>
+      <span class="quick-label-mobile">{copy.firstDiveShort}</span>
     </a>
     <a href={withBase(sectionPath(lang, "cursos"))}>
       <GraduationCap size={22} />
-      <span class="quick-label-full">{t("Cursos", "Courses", "Cursos")}</span>
-      <span class="quick-label-mobile">{t("Cursos", "Courses", "Cursos")}</span>
+      <span class="quick-label-full">{copy.courses}</span>
+      <span class="quick-label-mobile">{copy.courses}</span>
     </a>
     <a href={withBase(sectionPath(lang, "baleias"))}>
       <Binoculars size={22} />
-      <span class="quick-label-full">{t("Safari de baleias", "Whale-watching safari", "Safari de ballenas")}</span>
-      <span class="quick-label-mobile">{t("Baleias", "Whales", "Ballenas")}</span>
+      <span class="quick-label-full">{copy.whaleSafari}</span>
+      <span class="quick-label-mobile">{copy.whales}</span>
     </a>
   </div>
 </section>

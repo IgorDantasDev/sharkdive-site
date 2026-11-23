@@ -1,8 +1,9 @@
 ---
 import { ArrowRight, Mail, MapPin } from "@lucide/astro";
 import { siInstagram, siWhatsapp } from "simple-icons";
+import { contactCopy } from "../content/site";
 import type { Locale } from "../lib/i18n";
-import { translate } from "../lib/i18n";
+import { selectCopy } from "../lib/i18n";
 import { whatsappUrl } from "../lib/contact";
 import BrandIcon from "./BrandIcon.astro";
 
@@ -11,19 +12,15 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
+const copy = selectCopy(lang, contactCopy);
 ---
 
 <section class="contact" id="contato">
   <div class="shell contact-grid">
     <div>
-      <p class="eyebrow">{t("Contato", "Contact", "Contacto")}</p>
-      <h2>{t("Vamos planejar seu próximo mergulho?", "Ready to plan your next dive?", "¿Planeamos tu próxima inmersión?")}</h2>
-      <p>{t(
-        "Fale com a equipe sobre batismos, cursos e disponibilidade para o safari de baleias.",
-        "Contact our team about first-time dives, courses and whale-watching safari availability.",
-        "Habla con nuestro equipo sobre bautismos, cursos y disponibilidad para el safari de ballenas.",
-      )}</p>
+      <p class="eyebrow">{copy.eyebrow}</p>
+      <h2>{copy.title}</h2>
+      <p>{copy.description}</p>
     </div>
     <div class="contact-actions">
       <a
@@ -34,9 +31,9 @@ const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
       >
         <MapPin size={22} />
         <span>
-          <small>{t("Base em Salvador", "Salvador base", "Base en Salvador")}</small>
-          {t("Av. da França, s/n — Terminal Turístico Náutico da Bahia, Comércio", "Av. da França, no number — Bahia Nautical Tourist Terminal, Comércio", "Av. da França, s/n — Terminal Turístico Náutico da Bahia, Comércio")}<br />
-          Salvador — Bahia, 40010-000, {t("Brasil", "Brazil", "Brasil")}
+          <small>{copy.base}</small>
+          {copy.address}<br />
+          Salvador — Bahia, 40010-000, {copy.country}
         </span>
         <ArrowRight size={20} />
       </a>
@@ -47,11 +44,7 @@ const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
       </a>
       <a
         class="contact-link"
-        href={whatsappUrl(t(
-          "Olá! Gostaria de saber mais sobre os batismos, cursos ou safari de baleias.",
-          "Hello! I would like to learn more about first dives, courses or the whale-watching safari.",
-          "¡Hola! Me gustaría saber más sobre los bautismos, cursos o el safari de ballenas.",
-        ))}
+        href={whatsappUrl(copy.message)}
         target="_blank"
         rel="noreferrer"
       >

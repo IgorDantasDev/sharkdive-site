@@ -1,8 +1,9 @@
 ---
 import { Check, Languages, Menu, Moon, Sun, X } from "@lucide/astro";
 import { siWhatsapp } from "simple-icons";
+import { headerCopy } from "../content/site";
 import type { Locale } from "../lib/i18n";
-import { translate } from "../lib/i18n";
+import { localeSettings, selectCopy } from "../lib/i18n";
 import { whatsappUrl } from "../lib/contact";
 import { withBase } from "../lib/path";
 import { sectionPath, type SectionRoute } from "../lib/routes";
@@ -14,7 +15,7 @@ interface Props {
 }
 
 const { lang, currentSection } = Astro.props;
-const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
+const copy = selectCopy(lang, headerCopy);
 const sectionHref = (section: SectionRoute) => withBase(sectionPath(lang, section));
 const languages = [
   { code: "pt", label: "Português", root: "/" },
@@ -28,28 +29,28 @@ const languageHref = (locale: Locale, root: string) => withBase(
 
 <header class="site-header" data-header>
   <div class="shell header-inner">
-    <a class="brand" href={sectionHref("inicio")} aria-label={t("Shark Dive - início", "Shark Dive - home", "Shark Dive - inicio")}>
+    <a class="brand" href={sectionHref("inicio")} aria-label={copy.brandLabel}>
       <img
         src={withBase("/images/brand/sharkdive-logo-white.png")}
         width="1999"
         height="787"
-        alt={t("Shark Dive Centro de Mergulho", "Shark Dive Center", "Centro de Buceo Shark Dive")}
+        alt={copy.brandAlt}
       />
     </a>
 
-    <nav class="desktop-nav" aria-label={t("Navegação principal", "Main navigation", "Navegación principal")}>
-      <a href={sectionHref("batismo")} aria-current={currentSection === "batismo" ? "page" : undefined}>{t("Mergulho", "Diving", "Buceo")}</a>
-      <a href={sectionHref("cursos")} aria-current={currentSection === "cursos" ? "page" : undefined}>{t("Cursos", "Courses", "Cursos")}</a>
-      <a href={sectionHref("baleias")} aria-current={currentSection === "baleias" ? "page" : undefined}>{t("Baleias", "Whales", "Ballenas")}</a>
-      <a href={sectionHref("sobre")} aria-current={currentSection === "sobre" ? "page" : undefined}>{t("Sobre", "About", "Nosotros")}</a>
+    <nav class="desktop-nav" aria-label={copy.mainNavigation}>
+      <a href={sectionHref("batismo")} aria-current={currentSection === "batismo" ? "page" : undefined}>{copy.diving}</a>
+      <a href={sectionHref("cursos")} aria-current={currentSection === "cursos" ? "page" : undefined}>{copy.courses}</a>
+      <a href={sectionHref("baleias")} aria-current={currentSection === "baleias" ? "page" : undefined}>{copy.whales}</a>
+      <a href={sectionHref("sobre")} aria-current={currentSection === "sobre" ? "page" : undefined}>{copy.about}</a>
     </nav>
 
     <div class="header-actions">
       <details class="language-menu" data-language-menu>
         <summary
           class="utility-button language-switch"
-          aria-label={t("Selecionar idioma", "Select language", "Seleccionar idioma")}
-          title={t("Idioma", "Language", "Idioma")}
+          aria-label={copy.selectLanguage}
+          title={copy.language}
         >
           <Languages size={18} />
           <span>{lang.toUpperCase()}</span>
@@ -58,7 +59,7 @@ const languageHref = (locale: Locale, root: string) => withBase(
           {languages.map((language) => (
             <a
               href={languageHref(language.code, language.root)}
-              lang={language.code === "pt" ? "pt-BR" : language.code}
+              lang={localeSettings[language.code].htmlLang}
               aria-current={language.code === lang ? "page" : undefined}
             >
               <span>{language.label}</span>
@@ -71,11 +72,11 @@ const languageHref = (locale: Locale, root: string) => withBase(
       <button
         class="utility-button theme-toggle"
         type="button"
-        aria-label={t("Ativar modo escuro", "Enable dark mode", "Activar modo oscuro")}
-        title={t("Alternar tema", "Switch theme", "Cambiar tema")}
+        aria-label={copy.enableDark}
+        title={copy.switchTheme}
         data-theme-toggle
-        data-dark-label={t("Ativar modo escuro", "Enable dark mode", "Activar modo oscuro")}
-        data-light-label={t("Ativar modo claro", "Enable light mode", "Activar modo claro")}
+        data-dark-label={copy.enableDark}
+        data-light-label={copy.enableLight}
       >
         <Moon class="theme-moon" size={19} />
         <Sun class="theme-sun" size={19} />
@@ -83,27 +84,23 @@ const languageHref = (locale: Locale, root: string) => withBase(
 
       <a
         class="button button-primary header-cta"
-        href={whatsappUrl(t(
-          "Olá! Gostaria de saber mais sobre os batismos, cursos ou safari de baleias.",
-          "Hello! I would like to learn more about first dives, courses or the whale-watching safari.",
-          "¡Hola! Me gustaría saber más sobre los bautismos, cursos o el safari de ballenas.",
-        ))}
+        href={whatsappUrl(copy.contactMessage)}
         target="_blank"
         rel="noreferrer"
       >
         <BrandIcon path={siWhatsapp.path} size={18} />
-        {t("Fale conosco", "Contact us", "Contáctanos")}
+        {copy.contactUs}
       </a>
 
       <button
         class="menu-toggle"
         type="button"
-        aria-label={t("Abrir menu", "Open menu", "Abrir menú")}
+        aria-label={copy.openMenu}
         aria-expanded="false"
         aria-controls="mobile-menu"
         data-menu-toggle
-        data-open-label={t("Abrir menu", "Open menu", "Abrir menú")}
-        data-close-label={t("Fechar menu", "Close menu", "Cerrar menú")}
+        data-open-label={copy.openMenu}
+        data-close-label={copy.closeMenu}
       >
         <Menu class="menu-open-icon" size={24} />
         <X class="menu-close-icon" size={24} />
@@ -111,12 +108,12 @@ const languageHref = (locale: Locale, root: string) => withBase(
     </div>
   </div>
 
-  <nav class="mobile-nav" id="mobile-menu" aria-label={t("Navegação mobile", "Mobile navigation", "Navegación móvil")} data-mobile-menu>
-    <a href={sectionHref("batismo")} aria-current={currentSection === "batismo" ? "page" : undefined}>{t("Mergulho recreativo", "Recreational diving", "Buceo recreativo")}</a>
-    <a href={sectionHref("cursos")} aria-current={currentSection === "cursos" ? "page" : undefined}>{t("Cursos", "Courses", "Cursos")}</a>
-    <a href={sectionHref("baleias")} aria-current={currentSection === "baleias" ? "page" : undefined}>{t("Safari de baleias", "Whale-watching safari", "Safari de ballenas")}</a>
-    <a href={sectionHref("sobre")} aria-current={currentSection === "sobre" ? "page" : undefined}>{t("Sobre", "About", "Nosotros")}</a>
-    <a href={sectionHref("contato")} aria-current={currentSection === "contato" ? "page" : undefined}>{t("Contato", "Contact", "Contacto")}</a>
+  <nav class="mobile-nav" id="mobile-menu" aria-label={copy.mobileNavigation} data-mobile-menu>
+    <a href={sectionHref("batismo")} aria-current={currentSection === "batismo" ? "page" : undefined}>{copy.recreationalDiving}</a>
+    <a href={sectionHref("cursos")} aria-current={currentSection === "cursos" ? "page" : undefined}>{copy.courses}</a>
+    <a href={sectionHref("baleias")} aria-current={currentSection === "baleias" ? "page" : undefined}>{copy.whaleSafari}</a>
+    <a href={sectionHref("sobre")} aria-current={currentSection === "sobre" ? "page" : undefined}>{copy.about}</a>
+    <a href={sectionHref("contato")} aria-current={currentSection === "contato" ? "page" : undefined}>{copy.contact}</a>
   </nav>
 </header>
 

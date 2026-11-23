@@ -4,35 +4,37 @@ import baleiasSalvador from "../assets/acervo/baleias-salvador.jpg";
 import cardume from "../assets/acervo/cardume.jpg";
 import mergulhadorCardume from "../assets/acervo/mergulhador-cardume.jpg";
 import mergulhadorRecife from "../assets/acervo/mergulhador-recife.jpg";
+import { galleryAltCopy, galleryCopy } from "../content/site";
 import type { Locale } from "../lib/i18n";
-import { translate } from "../lib/i18n";
+import { selectCopy } from "../lib/i18n";
 
 interface Props {
   lang: Locale;
 }
 
 const { lang } = Astro.props;
-const t = (pt: string, en: string, es: string) => translate(lang, pt, en, es);
+const copy = selectCopy(lang, galleryCopy);
+const imageAlt = selectCopy(lang, galleryAltCopy);
 
 const photos = [
   {
     src: cardume,
-    alt: t("Cardume de peixes amarelos em recife de Salvador", "School of yellow fish on a reef in Salvador", "Banco de peces amarillos en un arrecife de Salvador"),
+    alt: imageAlt.cardume,
     className: "gallery-item gallery-featured",
   },
   {
     src: mergulhadorRecife,
-    alt: t("Mergulhador diante de um recife com muitos peixes", "Scuba diver in front of a reef filled with fish", "Buceador frente a un arrecife lleno de peces"),
+    alt: imageAlt.reefDiver,
     className: "gallery-item",
   },
   {
     src: mergulhadorCardume,
-    alt: t("Mergulhador nadando junto a um grande cardume", "Scuba diver swimming alongside a large school of fish", "Buceador nadando junto a un gran banco de peces"),
+    alt: imageAlt.schoolDiver,
     className: "gallery-item",
   },
   {
     src: baleiasSalvador,
-    alt: t("Duas baleias-jubarte com Salvador ao fundo", "Two humpback whales with Salvador in the background", "Dos ballenas jorobadas con Salvador al fondo"),
+    alt: imageAlt.whales,
     className: "gallery-item gallery-wide",
   },
 ];
@@ -41,14 +43,10 @@ const photos = [
 <section class="section gallery" aria-labelledby="gallery-title">
   <div class="shell gallery-heading">
     <div>
-      <p class="eyebrow">{t("Shark Dive em ação", "Shark Dive in action", "Shark Dive en acción")}</p>
-      <h2 id="gallery-title">{t("Salvador vista do mar e por baixo dele.", "Salvador from the sea and beneath it.", "Salvador vista desde el mar y bajo sus aguas.")}</h2>
+      <p class="eyebrow">{copy.eyebrow}</p>
+      <h2 id="gallery-title">{copy.title}</h2>
     </div>
-    <p>{t(
-      "Registros de mergulhos e encontros no litoral baiano publicados pela equipe Shark Dive.",
-      "Scenes from dives and marine encounters off the coast of Bahia, published by the Shark Dive team.",
-      "Imágenes de inmersiones y encuentros marinos en la costa de Bahía, publicadas por el equipo de Shark Dive.",
-    )}</p>
+    <p>{copy.description}</p>
   </div>
 
   <div class="shell gallery-grid">
@@ -66,11 +64,7 @@ const photos = [
       </figure>
     ))}
   </div>
-  <p class="shell photo-credit">{t(
-    "Acervo Shark Dive. Créditos autorais preservados nas imagens.",
-    "Shark Dive archive. Original photo credits are preserved in the images.",
-    "Archivo de Shark Dive. Los créditos originales se conservan en las imágenes.",
-  )}</p>
+  <p class="shell photo-credit">{copy.credit}</p>
 </section>
 
 <style>
