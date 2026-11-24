@@ -104,6 +104,7 @@ src/
     courses.astro
     the-team.astro
     contact.astro
+    paginainicial.astro
     programao-de-mergulho.astro
   styles/
     global.css                ponto de entrada dos estilos compartilhados
@@ -371,6 +372,7 @@ com `meta refresh`, canonical e link manual de fallback:
 | `/courses` | `/cursos/` |
 | `/the-team` | `/sobre/` |
 | `/contact` | `/contato/` |
+| `/paginainicial` | `/inicio/` |
 | `/programao-de-mergulho` | `/batismo/` |
 
 Não corrigir o slug legado `/programao-de-mergulho`.
